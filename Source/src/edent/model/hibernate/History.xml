@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class dynamic-insert="false" dynamic-update="false" mutable="true" name="edent.model.History" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+        <id name="id" type="java.lang.Long">
+            <generator class="native"/>
+        </id>
+        <list name="diagnoses" table="diagnosis_history" inverse="false" cascade="all">
+            <key column="hist_id"/>
+            <list-index column="hist_index"/>
+            <many-to-many class="edent.model.Diagnosis"/>
+        </list>
+        <many-to-one unique="true" name="gum" class="edent.model.Gum">
+            <column name="gum" not-null="false"/>
+        </many-to-one>
+        <many-to-one unique="true" name="tooth" class="edent.model.Tooth">
+            <column name="tooth" not-null="false"/>
+        </many-to-one>
+        <many-to-one unique="true" name="mouth" class="edent.model.Mouth">
+            <column name="mouth" not-null="false"/>
+        </many-to-one>
+        <!--one-to-one name="tooth" class="edent.model.Tooth" column="tooth" outer-join="true" lazy="true"/>
+        <one-to-one name="mouth" class="edent.model.Mouth" column="mouth" outer-join="true" lazy="true"/-->
+    </class>
+</hibernate-mapping>

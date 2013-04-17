@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class dynamic-insert="false" dynamic-update="false" mutable="true" name="edent.model.Mouth" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+        <id name="id" type="java.lang.Long">
+            <generator class="foreign">
+                <param name="property">owner</param>
+            </generator>
+        </id>
+        <many-to-one unique="true" name="history" class="edent.model.History">
+            <column name="history" not-null="false"/>
+        </many-to-one>
+        <!--one-to-one name="history" class="edent.model.History" cascade="save-update"/-->
+        <one-to-one name="owner" class="edent.model.Patient" constrained="true"/>
+        <set name="teeth" table="tooth" inverse="false" lazy="true" fetch="select">
+            <key column="mouth"/>
+            <one-to-many class="edent.model.Tooth"/>
+        </set>
+        <set name="gums" table="gum" inverse="false" lazy="true" fetch="select">
+            <key column="mouth"/>
+            <one-to-many class="edent.model.Gum"/>
+        </set>
+    </class>
+</hibernate-mapping>

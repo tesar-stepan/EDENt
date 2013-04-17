@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class dynamic-insert="false" dynamic-update="false" mutable="true" name="edent.model.Appointment" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+        <id name="id" type="java.lang.Long">
+            <generator class="native"/>
+        </id>
+        <property name="date" type="java.lang.Long">
+            <column name="date" not-null="true"/>
+        </property>
+        <many-to-one name="creator" class="edent.model.User">
+            <column name="creator" not-null="true"/>
+        </many-to-one>
+        <many-to-one name="patient" class="edent.model.Patient">
+            <column name="patient" not-null="true"/>
+        </many-to-one>
+        <list name="diagnoses" table="diagnoses" inverse="true">
+            <key column="app_id"/>
+            <list-index column="app_index"/>
+            <one-to-many class="edent.model.Diagnosis"/>
+        </list>
+        <set name="servers" table="user_appointment" inverse="true" lazy="true" fetch="select" cascade="all">
+            <key column="app_id" />
+            <many-to-many column="user_id"  class="edent.model.User" />
+        </set>
+    </class>
+</hibernate-mapping>

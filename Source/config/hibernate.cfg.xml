@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+    <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+    <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/EDENt</property>
+    <property name="hibernate.connection.username">postgres</property>
+    <property name="hibernate.connection.password">phorekh</property>
+    <property name="hibernate.hbm2ddl.auto">create-drop</property>
+    <mapping resource="edent/model/hibernate/Appointment.xml"/>
+    <mapping resource="edent/model/hibernate/Diagnosis.xml"/>
+    <mapping resource="edent/model/hibernate/Gum.xml"/>
+    <mapping resource="edent/model/hibernate/GumState.xml"/>
+    <mapping resource="edent/model/hibernate/History.xml"/>
+    <mapping resource="edent/model/hibernate/Mouth.xml"/>
+    <mapping resource="edent/model/hibernate/Patient.xml"/>
+    <mapping resource="edent/model/hibernate/Tooth.xml"/>
+    <mapping resource="edent/model/hibernate/ToothState.xml"/>
+    <mapping resource="edent/model/hibernate/User.xml"/>
+  </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class dynamic-insert="false" dynamic-update="false" mutable="true" name="edent.model.User" table="userx" optimistic-lock="version" polymorphism="implicit" select-before-update="false">
+        <id name="id" type="java.lang.Long">
+            <generator class="native"/>
+        </id>
+        <property name="fname" type="string">
+            <column name="fname" not-null="false"/>
+        </property>
+        <property name="sname" type="string">
+            <column name="sname" not-null="false"/>
+        </property>
+        <property name="uname" type="string">
+            <column name="uname" not-null="true"/>
+        </property>
+        <property name="titlePre" type="string">
+            <column name="titlePre" not-null="false"/>
+        </property>
+        <property name="titlePos" type="string">
+            <column name="titlePos" not-null="false"/>
+        </property>
+        <property name="type" length="30"> 
+            <type name="org.hibernate.type.EnumType"> 
+                <param name="enumClass">edent.model.UserType</param> 
+                <param name="type">12</param> 
+            </type> 
+        </property> 
+        <set name="patients" table="user_patient" cascade="all" inverse="false" lazy="true" fetch="select">
+            <key column="user_id" />
+            <many-to-many column="patient_id"  class="edent.model.Patient" />
+        </set>
+        <set name="appointments" table="user_appointment" inverse="false" lazy="true" fetch="select" cascade="all">
+            <key column="user_id" />
+            <many-to-many column="app_id"  class="edent.model.Appointment" />
+        </set>
+    </class>
+</hibernate-mapping>
