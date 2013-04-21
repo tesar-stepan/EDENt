@@ -1,0 +1,1 @@
+clock: http://www.leepoint.net/notes-java/examples/animation/41TextClock/30textclock2.html

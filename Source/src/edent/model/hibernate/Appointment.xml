@@ -8,6 +8,9 @@
         <property name="date" type="java.lang.Long">
             <column name="date" not-null="true"/>
         </property>
+        <property name="note" type="java.lang.String">
+            <column name="note" not-null="false"/>
+        </property>
         <many-to-one name="creator" class="edent.model.User">
             <column name="creator" not-null="true"/>
         </many-to-one>

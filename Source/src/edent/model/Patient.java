@@ -19,6 +19,7 @@ public class Patient implements java.io.Serializable{
     private String birthNum;
     private long birthDate;
     private long created;
+    //img swill be loaded by the uname from a specific directory, no need to save in db or object, only serves for GUI
     
     private Mouth mouth;
     private Set<User> doctors;

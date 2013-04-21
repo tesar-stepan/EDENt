@@ -21,6 +21,7 @@ public class User implements java.io.Serializable {
     private UserType type;
     private Set<Patient> patients;
     private Set<Appointment> appointments;
+    //img swill be loaded by the uname from a specific directory, no need to save in db or object, only serves for GUI
 
     public User(String fname, String sname, String uname, String titlePre, String titlePos, UserType type) {
         this.fname = fname;

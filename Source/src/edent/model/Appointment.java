@@ -17,6 +17,7 @@ import java.util.Set;
 public class Appointment implements java.io.Serializable{
     private long id;
     private long date;
+    private String note;
     private User creator;
     private Set<User> servers;
     private Patient patient;
@@ -63,6 +64,14 @@ public class Appointment implements java.io.Serializable{
 
     public void setDate(long date) {
         this.date = date;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public User getCreator() {
