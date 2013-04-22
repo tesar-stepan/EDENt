@@ -4,115 +4,162 @@
  */
 package edent.view;
 
+import edent.view.forms.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import javax.swing.JRootPane;
+
 /**
  *
  * @author Stepan Tesar
  */
 public class MainFrame extends javax.swing.JFrame {
+    /***************************************************
+     * Variable declaration
+     ***************************************************/
+    public static final Color BACKGROUND =  new Color(150, 150, 150);
+    public static final int TOPPANEL_HEIGHT = 100;
+    private static final Dimension MIN_DIMENSION = new Dimension(800,600);
+    private static final String TITLE_LABEL = "EDEN.t";
+    private static final int PANEL_WIDTH_FRACTION = 6;
+    
+    private UserForm userForm = new UserForm();
+    private PatientForm patientForm = new PatientForm();
+    private AppointmentForm ApptForm = new AppointmentForm();
+    private AppointmentDetailsForm ApptDetails = new AppointmentDetailsForm();
+    private CalendarForm calendar = new CalendarForm();
+    private MouthForm mouthForm = new MouthForm();
+    private QuickstartForm quickstart = new QuickstartForm();
+    private SettingsForm settings = new SettingsForm();
+    private UnloggedForm unlogged = new UnloggedForm();
+    
+    private SidePanel sidePanel = new SidePanel();
+    private MainPanel mainPanel = new MainPanel();
+    private EdentForm activeForm = unlogged;
 
-    /**
-     * Creates new form MainFrame
-     */
+    /***************************************************
+     * Constructor
+     ***************************************************/
     public MainFrame() {
+        this.setTitle(TITLE_LABEL);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         initComponents();
+        this.repaint();
+    }
+    
+    /***************************************************
+     * Private methods
+     ***************************************************/
+
+    private void initComponents() {
+        this.setFullscreen();
+        
+        int w = this.getWidth()/PANEL_WIDTH_FRACTION;
+        Dimension sideDim = new Dimension(w, this.getHeight());
+        Dimension mainDim = new Dimension(this.getWidth()-w, this.getHeight());
+        
+        this.add(sidePanel, BorderLayout.WEST);
+        this.add(mainPanel, BorderLayout.CENTER);
+        sidePanel.setPreferredSize(sideDim);
+        sidePanel.setSize(sideDim);
+        mainPanel.setPreferredSize(mainDim);
+        mainPanel.setSize(mainDim);
+        
+        mainPanel.add(this.ApptDetails);
+        mainPanel.add(this.ApptForm);
+        mainPanel.add(this.calendar);
+        mainPanel.add(this.mouthForm);
+        mainPanel.add(this.patientForm);
+        mainPanel.add(this.patientForm);
+        mainPanel.add(this.quickstart);
+        mainPanel.add(this.settings);
+        mainPanel.add(this.unlogged);
+        mainPanel.add(this.userForm);
+        
+    }
+    
+    private void setFullscreen(){
+        this.setUndecorated(true);
+        this.getRootPane().setWindowDecorationStyle(JRootPane.NONE);
+        
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(0, 0);
+        this.setSize(screenSize);
+        
+        this.setMinimumSize(MIN_DIMENSION);
+    }
+    
+    private void showActive(){
+        this.activeForm.setVisible(true);
+        this.activeForm.setSize(this.mainPanel.getSize());
+    }
+    
+    private void hideActive(){
+        this.activeForm.setVisible(false);
+    }
+    
+    /***************************************************
+     * Public methods
+     ***************************************************/
+    
+    public void showUnlogged(){
+        this.hideActive();
+        this.activeForm = this.unlogged;
+        this.showActive();
+    }
+    
+    public void showUserForm(){
+        this.hideActive();
+        this.activeForm = this.userForm;
+        this.showActive();
+    }
+    
+    public void showPatientForm(){
+        this.hideActive();
+        this.activeForm = this.patientForm;
+        this.showActive();
+    }
+    
+    public void showMouthForm(){
+        this.hideActive();
+        this.activeForm = this.mouthForm;
+        this.showActive();
+    }
+    
+    public void showAppointment(){
+        this.hideActive();
+        this.activeForm = this.ApptForm;
+        this.showActive();
+    }
+    
+    public void showAppointmenDetails(){
+        this.hideActive();
+        this.activeForm = this.ApptDetails;
+        this.showActive();
+    }
+    
+    public void showCalendar(){
+        this.hideActive();
+        this.activeForm = this.calendar;
+        this.showActive();
+    }
+    
+    public void showQuickstart(){
+        this.hideActive();
+        this.activeForm = this.quickstart;
+        this.showActive();
+    }
+    
+    public void showSettings(){
+        this.hideActive();
+        this.activeForm = this.settings;
+        this.showActive();
     }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMinimumSize(new java.awt.Dimension(800, 600));
-        setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(800, 600));
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jButton1.setText("jButton1");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 173, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 157, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(339, Short.MAX_VALUE)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 693, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jMenuBar1.setBackground(new java.awt.Color(255, 255, 255));
-
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
-
-        setJMenuBar(jMenuBar1);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -140,17 +187,10 @@ public class MainFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFrame().setVisible(true);
+                MainFrame mf = new MainFrame();
+                mf.setVisible(true);
+                mf.showUnlogged();
             }
         });
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    // End of variables declaration//GEN-END:variables
 }
