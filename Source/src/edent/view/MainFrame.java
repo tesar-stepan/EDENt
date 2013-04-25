@@ -20,10 +20,12 @@ public class MainFrame extends javax.swing.JFrame {
      * Variable declaration
      ***************************************************/
     public static final Color BACKGROUND =  new Color(150, 150, 150);
+    public static final Color FOREGROUND =  Color.white;
     public static final int TOPPANEL_HEIGHT = 100;
+    public static final double PANEL_WIDTH_FRACTION = 5;
+    
     private static final Dimension MIN_DIMENSION = new Dimension(800,600);
     private static final String TITLE_LABEL = "EDEN.t";
-    private static final int PANEL_WIDTH_FRACTION = 6;
     
     private UserForm userForm = new UserForm();
     private PatientForm patientForm = new PatientForm();
@@ -56,9 +58,9 @@ public class MainFrame extends javax.swing.JFrame {
     private void initComponents() {
         this.setFullscreen();
         
-        int w = this.getWidth()/PANEL_WIDTH_FRACTION;
-        Dimension sideDim = new Dimension(w, this.getHeight());
-        Dimension mainDim = new Dimension(this.getWidth()-w, this.getHeight());
+        double w = this.getWidth()/PANEL_WIDTH_FRACTION;
+        Dimension sideDim = new Dimension((int)w, this.getHeight());
+        Dimension mainDim = new Dimension(this.getWidth()-(int)w, this.getHeight());
         
         this.add(sidePanel, BorderLayout.WEST);
         this.add(mainPanel, BorderLayout.CENTER);
@@ -158,39 +160,4 @@ public class MainFrame extends javax.swing.JFrame {
         this.showActive();
     }
 
-    
-
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                MainFrame mf = new MainFrame();
-                mf.setVisible(true);
-                mf.showUnlogged();
-            }
-        });
-    }
 }

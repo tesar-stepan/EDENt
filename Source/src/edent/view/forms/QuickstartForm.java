@@ -11,17 +11,17 @@ package edent.view.forms;
 public class QuickstartForm extends EdentForm {
 
     /**
-     * Creates new form Quickstart
+     * Creates new form QuickstartForm
      */
     public QuickstartForm() {
         initComponents();
     }
     
     @Override
-    public void setEditing(Object o){
+    public void setEditing(Object o) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
+
     @Override
     public void setCreating() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -49,4 +49,5 @@ public class QuickstartForm extends EdentForm {
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
 }

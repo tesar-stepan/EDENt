@@ -4,6 +4,8 @@
  */
 package edent.view.forms;
 
+import java.awt.Component;
+
 /**
  *
  * @author Stepan Tesar
@@ -26,7 +28,7 @@ public class UserForm extends EdentForm {
     public void setCreating() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

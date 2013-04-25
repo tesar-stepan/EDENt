@@ -2,50 +2,19 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edent.view.forms;
-
-import edent.view.MainFrame;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Image;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+package edent.view.utils;
 
 /**
  *
  * @author Stepan Tesar
  */
-public class UnloggedForm extends EdentForm {
-    private static final String BACKGROUND = "images/logo_gray.png";
+public class SettingsPanelApplication extends SettingsMainPanel {
 
     /**
-     * Creates new form Unlogged
+     * Creates new form SettingsPanelApplication
      */
-    public UnloggedForm() {
-        super();
-        this.setOpaque(true);
+    public SettingsPanelApplication() {
         initComponents();
-    }
-    
-    @Override
-    public void setEditing(Object o){
-        
-    }
-    
-    @Override
-    public void setCreating() {
-        
-    }
-    
-    @Override
-    public void paintComponent(Graphics g) {
-        g.setColor(MainFrame.BACKGROUND);
-        g.fillRect(0, 0, getWidth(), getHeight());
-        
-        Image background = new ImageIcon(BACKGROUND).getImage();
-        int x = getWidth()/2 - background.getWidth(this)/2;
-        int y = (getHeight()/2 - background.getHeight(this)/2)-MainFrame.TOPPANEL_HEIGHT;
-        g.drawImage(background, x, y, null);
     }
 
     /**
@@ -57,17 +26,31 @@ public class UnloggedForm extends EdentForm {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+
+        setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setText("Application settings");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 723, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(297, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 482, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(275, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

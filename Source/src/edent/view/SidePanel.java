@@ -4,11 +4,22 @@
  */
 package edent.view;
 
+import edent.controller.ViewController;
+import edent.view.utils.Clock;
+import edent.view.utils.EdentButton;
+import edent.view.utils.EdentButtonColor;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import javax.swing.JButton;
+
 /**
  *
  * @author Stepan Tesar
  */
 public class SidePanel extends javax.swing.JPanel {
+    private static final String SETTINGS_LABEL = "|  Nastavení  |";
+    private static final String EXIT_LABEL = "|  Ukončit  |";
+    private JButton[] buttons = new JButton[3];
 
     /**
      * Creates new form SidePanel
@@ -16,7 +27,18 @@ public class SidePanel extends javax.swing.JPanel {
     public SidePanel() {
         initComponents();
         this.setBackground(MainFrame.BACKGROUND);
-        this.jPanelClock.setSize(this.jPanelClock.getWidth(), MainFrame.TOPPANEL_HEIGHT);
+        
+        buttons[0] = this.settingsButton;
+        buttons[1] = this.exitButton;
+        buttons[2] = this.jButton1;
+        this.settingsButton.setText(SETTINGS_LABEL);
+        this.exitButton.setText(EXIT_LABEL);
+    }
+    
+    private void deselectButtons(){
+        for(JButton b : buttons){
+            b.setSelected(false);
+        }
     }
 
     /**
@@ -28,115 +50,189 @@ public class SidePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanelClock = new javax.swing.JPanel();
-        jLabelClock = new javax.swing.JLabel();
-        jpanelAppts = new javax.swing.JPanel();
-        jPanelLogins = new javax.swing.JPanel();
-        jPanelButtons = new javax.swing.JPanel();
+        clockPanel = new javax.swing.JPanel();
+        clockLabel = new Clock();
+        settingsButton = new EdentButton("| settings |", new Dimension(this.getWidth()/2,20), 12, EdentButtonColor.white, BorderLayout.NORTH);
+        dateLabel = new Clock("d.M.");
+        dayLabel = new Clock("EEEEEEEEEEE");
+        exitButton = new EdentButton("|  exit  |", new Dimension(this.getWidth()/2,20), 12, EdentButtonColor.white, BorderLayout.EAST);
+        apptsPanel = new javax.swing.JPanel();
+        loginPanel = new javax.swing.JPanel();
+        buttonsPanel = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(204, 204, 204));
+        setBackground(new java.awt.Color(255, 255, 255));
         setAutoscrolls(true);
         setMaximumSize(new java.awt.Dimension(800, 32767));
         setMinimumSize(new java.awt.Dimension(200, 600));
         setPreferredSize(new java.awt.Dimension(300, 600));
 
-        jPanelClock.setAlignmentX(0.0F);
-        jPanelClock.setAlignmentY(0.0F);
-        jPanelClock.setMaximumSize(new java.awt.Dimension(200, 100));
-        jPanelClock.setMinimumSize(new java.awt.Dimension(200, 100));
-        jPanelClock.setPreferredSize(new java.awt.Dimension(200, 100));
+        clockPanel.setBackground(new java.awt.Color(255, 255, 255));
+        clockPanel.setAlignmentX(0.0F);
+        clockPanel.setAlignmentY(0.0F);
+        clockPanel.setMaximumSize(new java.awt.Dimension(200, 100));
+        clockPanel.setMinimumSize(new java.awt.Dimension(200, 100));
+        clockPanel.setPreferredSize(new java.awt.Dimension(200, 100));
 
-        jLabelClock.setFont(new java.awt.Font("Verdana", 0, 48)); // NOI18N
-        jLabelClock.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelClock.setText("00:00");
+        clockLabel.setFont(new java.awt.Font("Verdana", 0, 48)); // NOI18N
+        clockLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        clockLabel.setText("00:00");
+        clockLabel.setAlignmentX(0.5F);
 
-        javax.swing.GroupLayout jPanelClockLayout = new javax.swing.GroupLayout(jPanelClock);
-        jPanelClock.setLayout(jPanelClockLayout);
-        jPanelClockLayout.setHorizontalGroup(
-            jPanelClockLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelClockLayout.createSequentialGroup()
+        settingsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                settingsButtonActionPerformed(evt);
+            }
+        });
+
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout clockPanelLayout = new javax.swing.GroupLayout(clockPanel);
+        clockPanel.setLayout(clockPanelLayout);
+        clockPanelLayout.setHorizontalGroup(
+            clockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(clockPanelLayout.createSequentialGroup()
+                .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
+                .addComponent(settingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(clockPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabelClock, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                .addGroup(clockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(dayLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                    .addComponent(dateLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(clockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanelClockLayout.setVerticalGroup(
-            jPanelClockLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelClockLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabelClock, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                .addContainerGap())
+        clockPanelLayout.setVerticalGroup(
+            clockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(clockPanelLayout.createSequentialGroup()
+                .addGroup(clockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(settingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0)
+                .addGroup(clockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(clockPanelLayout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(dateLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(dayLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(clockLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, 0))
         );
 
-        jpanelAppts.setAlignmentX(0.0F);
-        jpanelAppts.setAlignmentY(0.0F);
-        jpanelAppts.setAutoscrolls(true);
-        jpanelAppts.setOpaque(false);
-        jpanelAppts.setPreferredSize(new java.awt.Dimension(200, 100));
+        apptsPanel.setBackground(new java.awt.Color(255, 255, 255));
+        apptsPanel.setAlignmentX(0.0F);
+        apptsPanel.setAlignmentY(0.0F);
+        apptsPanel.setAutoscrolls(true);
+        apptsPanel.setPreferredSize(new java.awt.Dimension(200, 100));
 
-        javax.swing.GroupLayout jpanelApptsLayout = new javax.swing.GroupLayout(jpanelAppts);
-        jpanelAppts.setLayout(jpanelApptsLayout);
-        jpanelApptsLayout.setHorizontalGroup(
-            jpanelApptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout apptsPanelLayout = new javax.swing.GroupLayout(apptsPanel);
+        apptsPanel.setLayout(apptsPanelLayout);
+        apptsPanelLayout.setHorizontalGroup(
+            apptsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jpanelApptsLayout.setVerticalGroup(
-            jpanelApptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 180, Short.MAX_VALUE)
+        apptsPanelLayout.setVerticalGroup(
+            apptsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 170, Short.MAX_VALUE)
         );
 
-        jPanelLogins.setMaximumSize(new java.awt.Dimension(140, 200));
-        jPanelLogins.setMinimumSize(new java.awt.Dimension(140, 200));
-        jPanelLogins.setName(""); // NOI18N
-        jPanelLogins.setPreferredSize(new java.awt.Dimension(140, 200));
+        loginPanel.setBackground(new java.awt.Color(255, 255, 255));
+        loginPanel.setMaximumSize(new java.awt.Dimension(140, 200));
+        loginPanel.setMinimumSize(new java.awt.Dimension(140, 200));
+        loginPanel.setName(""); // NOI18N
+        loginPanel.setPreferredSize(new java.awt.Dimension(140, 200));
 
-        javax.swing.GroupLayout jPanelLoginsLayout = new javax.swing.GroupLayout(jPanelLogins);
-        jPanelLogins.setLayout(jPanelLoginsLayout);
-        jPanelLoginsLayout.setHorizontalGroup(
-            jPanelLoginsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
+        loginPanel.setLayout(loginPanelLayout);
+        loginPanelLayout.setHorizontalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanelLoginsLayout.setVerticalGroup(
-            jPanelLoginsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        loginPanelLayout.setVerticalGroup(
+            loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 200, Short.MAX_VALUE)
         );
 
-        javax.swing.GroupLayout jPanelButtonsLayout = new javax.swing.GroupLayout(jPanelButtons);
-        jPanelButtons.setLayout(jPanelButtonsLayout);
-        jPanelButtonsLayout.setHorizontalGroup(
-            jPanelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        buttonsPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout buttonsPanelLayout = new javax.swing.GroupLayout(buttonsPanel);
+        buttonsPanel.setLayout(buttonsPanelLayout);
+        buttonsPanelLayout.setHorizontalGroup(
+            buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanelButtonsLayout.setVerticalGroup(
-            jPanelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+        buttonsPanelLayout.setVerticalGroup(
+            buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addContainerGap(86, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpanelAppts, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-            .addComponent(jPanelClock, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-            .addComponent(jPanelLogins, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
-            .addComponent(jPanelButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(clockPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(loginPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(apptsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanelClock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(clockPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jpanelAppts, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                .addComponent(apptsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanelButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jPanelLogins, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void settingsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_settingsButtonActionPerformed
+        ViewController.showSettings();
+        deselectButtons();
+        this.settingsButton.setSelected(true);
+    }//GEN-LAST:event_settingsButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ViewController.showUnlogged();
+        deselectButtons();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        deselectButtons();
+        ViewController.shutDown();
+    }//GEN-LAST:event_exitButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabelClock;
-    private javax.swing.JPanel jPanelButtons;
-    private javax.swing.JPanel jPanelClock;
-    private javax.swing.JPanel jPanelLogins;
-    private javax.swing.JPanel jpanelAppts;
+    private javax.swing.JPanel apptsPanel;
+    private javax.swing.JPanel buttonsPanel;
+    private javax.swing.JLabel clockLabel;
+    private javax.swing.JPanel clockPanel;
+    private javax.swing.JLabel dateLabel;
+    private javax.swing.JLabel dayLabel;
+    private javax.swing.JButton exitButton;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JPanel loginPanel;
+    private javax.swing.JButton settingsButton;
     // End of variables declaration//GEN-END:variables
 }

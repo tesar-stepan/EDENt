@@ -4,6 +4,8 @@
  */
 package edent;
 
+import edent.controller.ViewController;
+
 /**
  *
  * @author Stepan Tesar
@@ -13,7 +15,7 @@ public class EDENt {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-
-        
+//        ModelController modelC = ModelController.getInstance();
+        ViewController viewC = ViewController.getInstance();
     }
 }

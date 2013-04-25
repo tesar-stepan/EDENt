@@ -15,6 +15,7 @@ public class MainPanel extends javax.swing.JPanel {
      */
     public MainPanel() {
         initComponents();
+        this.setBackground(MainFrame.BACKGROUND);
     }
 
     /**

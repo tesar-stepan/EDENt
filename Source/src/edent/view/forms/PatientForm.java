@@ -4,6 +4,8 @@
  */
 package edent.view.forms;
 
+import java.awt.Component;
+
 /**
  *
  * @author Stepan Tesar
