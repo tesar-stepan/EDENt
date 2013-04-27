@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -62,6 +63,14 @@ public class EdentButton extends JButton {
                 this.notSelectedLabelColor = MainFrame.FOREGROUND;
                 this.pressedLabelColor = Color.BLACK;
                 break;
+            case red:
+                this.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edent/view/utils/red.png")));
+                this.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/edent/view/utils/darkred.png")));
+                this.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/edent/view/utils/darkred.png")));
+                this.selectedLabelColor = Color.WHITE;
+                this.notSelectedLabelColor = Color.WHITE;
+                this.pressedLabelColor = Color.WHITE;
+                break;
         }
         
         this.setLayout(new BorderLayout());
@@ -75,7 +84,10 @@ public class EdentButton extends JButton {
         label = new JLabel(text);
         label.setFont(new java.awt.Font("Verdana", 0, fontSize));
         label.setForeground(this.notSelectedLabelColor);
+        int textPos = (labelPosition.equals(BorderLayout.EAST))?SwingConstants.LEFT:( (labelPosition.equals(BorderLayout.WEST))?SwingConstants.RIGHT:SwingConstants.CENTER  );
+        label.setHorizontalTextPosition(textPos);
         this.add(label, labelPosition);
+        
         this.addMouseListener(new MouseListener() {
 
             @Override

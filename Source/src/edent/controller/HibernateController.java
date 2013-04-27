@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edent.controller.hibernate;
+package edent.controller;
 
+import edent.controller.hibernate.HibernateSessionFactory;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
@@ -91,7 +92,7 @@ public class HibernateController {
     public static List executeQuery(String queryText, String[] parameterNames, String[] parameterTypes, Object[] parameterValues) {
         if (parameterNames.length != parameterValues.length ||
                 parameterTypes.length != parameterNames.length) {
-            //System.out.println("executeQ params length error");
+            System.out.println("executeQ params length error");
             return null;
         }
 
@@ -104,15 +105,20 @@ public class HibernateController {
 
             for (int i = 0; i < parameterNames.length; i++) {
                 String parameterType = parameterTypes[i].toLowerCase();
-
-                if (parameterType.equals("string")) {
-                    query.setString(parameterNames[i], (String) parameterValues[i]);
-                } else if (parameterType.equals("int") || parameterType.equals("integer")) {
-                    query.setInteger(parameterNames[i], (Integer) parameterValues[i]);
-                } else if (parameterType.equals("date")) {
-                    query.setDate(parameterNames[i], (Date) parameterValues[i]);
-                } else if (parameterType.equals("double")) {
-                    query.setDouble(parameterNames[i], (Double) parameterValues[i]);
+                switch (parameterType) {
+                    case "string":
+                        query.setString(parameterNames[i], (String) parameterValues[i]);
+                        break;
+                    case "int":
+                    case "integer":
+                        query.setInteger(parameterNames[i], (Integer) parameterValues[i]);
+                        break;
+                    case "date":
+                        query.setDate(parameterNames[i], (Date) parameterValues[i]);
+                        break;
+                    case "double":
+                        query.setDouble(parameterNames[i], (Double) parameterValues[i]);
+                        break;
                 }
             }
 
@@ -122,7 +128,7 @@ public class HibernateController {
             return result;
 
         } catch (Exception e) {
-            //e.printStackTrace();
+            e.printStackTrace();
             if (tx != null && tx.isActive()) {
                 tx.rollback();
             }
@@ -195,7 +201,6 @@ public class HibernateController {
         if (res == null || res.isEmpty()) {
             return null;
         }
-
         return res;
     }
 

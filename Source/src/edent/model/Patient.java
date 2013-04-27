@@ -4,7 +4,7 @@
  */
 package edent.model;
 
-import edent.controller.hibernate.HibernateController;
+import edent.controller.HibernateController;
 import java.util.HashSet;
 import java.util.Set;
 

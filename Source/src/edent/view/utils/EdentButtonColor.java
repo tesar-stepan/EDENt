@@ -9,5 +9,5 @@ package edent.view.utils;
  * @author Stepan Tesar
  */
 public enum EdentButtonColor {
-    blue, gray, white
+    blue, gray, white, red
 }

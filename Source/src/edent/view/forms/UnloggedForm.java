@@ -5,11 +5,9 @@
 package edent.view.forms;
 
 import edent.view.MainFrame;
-import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
 /**
  *
@@ -28,14 +26,13 @@ public class UnloggedForm extends EdentForm {
     }
     
     @Override
-    public void setEditing(Object o){
-        
-    }
+    public void setEditing(Object o){}
     
     @Override
-    public void setCreating() {
-        
-    }
+    public void setCreating(){}
+    
+    @Override
+    public void resetForm(){}
     
     @Override
     public void paintComponent(Graphics g) {

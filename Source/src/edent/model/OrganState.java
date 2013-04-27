@@ -10,8 +10,12 @@ package edent.model;
  */
 public abstract class OrganState {
     private long id;
-    private String name;
-    private String mark;
+    private String name = "";
+    private String mark = "";
+    
+    public OrganState(){
+        
+    }
 
     public OrganState(String name, String mark) {
         this.name = name;

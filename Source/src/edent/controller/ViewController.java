@@ -40,6 +40,10 @@ public class ViewController {
         System.exit(0); //TODO inform other controllers first!
     }
     
+    public static void showPrevious(){
+        mainFrame.showPrevious();
+    }
+    
     public static void showSettings() {
         mainFrame.showSettings();
     }
@@ -48,6 +52,12 @@ public class ViewController {
         mainFrame.showUnlogged();
     }
     
+    /**
+     *  MODEL COMMUNICATION
+     */
     
+    public static ModelController modelFacade(){
+        return ModelController.getInstance();
+    }
     
 }

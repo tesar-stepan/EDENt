@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edent.view.utils;
+package edent.view.utils.settings;
 
 /**
  * An empty class serving only as parent for all settings panels.

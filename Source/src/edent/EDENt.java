@@ -4,6 +4,7 @@
  */
 package edent;
 
+import edent.controller.ModelController;
 import edent.controller.ViewController;
 
 /**
@@ -15,7 +16,7 @@ public class EDENt {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-//        ModelController modelC = ModelController.getInstance();
+        ModelController modelC = ModelController.getInstance();
         ViewController viewC = ViewController.getInstance();
     }
 }

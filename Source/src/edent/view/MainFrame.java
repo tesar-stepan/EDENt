@@ -29,8 +29,8 @@ public class MainFrame extends javax.swing.JFrame {
     
     private UserForm userForm = new UserForm();
     private PatientForm patientForm = new PatientForm();
-    private AppointmentForm ApptForm = new AppointmentForm();
-    private AppointmentDetailsForm ApptDetails = new AppointmentDetailsForm();
+    private AppointmentForm apptForm = new AppointmentForm();
+    private AppointmentDetailsForm apptDetails = new AppointmentDetailsForm();
     private CalendarForm calendar = new CalendarForm();
     private MouthForm mouthForm = new MouthForm();
     private QuickstartForm quickstart = new QuickstartForm();
@@ -69,8 +69,8 @@ public class MainFrame extends javax.swing.JFrame {
         mainPanel.setPreferredSize(mainDim);
         mainPanel.setSize(mainDim);
         
-        mainPanel.add(this.ApptDetails);
-        mainPanel.add(this.ApptForm);
+        mainPanel.add(this.apptDetails);
+        mainPanel.add(this.apptForm);
         mainPanel.add(this.calendar);
         mainPanel.add(this.mouthForm);
         mainPanel.add(this.patientForm);
@@ -99,65 +99,64 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     private void hideActive(){
+        this.activeForm.resetForm();
         this.activeForm.setVisible(false);
+    }
+    
+    private void showForm(EdentForm form){
+        this.hideActive();
+        form.setPrevious(this.activeForm);
+        this.activeForm = form;
+        this.showActive();
     }
     
     /***************************************************
      * Public methods
      ***************************************************/
     
-    public void showUnlogged(){
+    public void showPrevious(){
         this.hideActive();
-        this.activeForm = this.unlogged;
+        this.activeForm = this.activeForm.displayPrevious();
+        if(this.activeForm==null){
+            this.activeForm = this.unlogged;
+        }
         this.showActive();
+    }
+    
+    public void showUnlogged(){
+        this.showForm(this.unlogged);
     }
     
     public void showUserForm(){
-        this.hideActive();
-        this.activeForm = this.userForm;
-        this.showActive();
+        this.showForm(this.userForm);
     }
     
     public void showPatientForm(){
-        this.hideActive();
-        this.activeForm = this.patientForm;
-        this.showActive();
+        this.showForm(this.patientForm);
     }
     
     public void showMouthForm(){
-        this.hideActive();
-        this.activeForm = this.mouthForm;
-        this.showActive();
+        this.showForm(this.mouthForm);
     }
     
     public void showAppointment(){
-        this.hideActive();
-        this.activeForm = this.ApptForm;
-        this.showActive();
+        this.showForm(this.apptForm);
     }
     
     public void showAppointmenDetails(){
-        this.hideActive();
-        this.activeForm = this.ApptDetails;
-        this.showActive();
+        this.showForm(this.apptDetails);
     }
     
     public void showCalendar(){
-        this.hideActive();
-        this.activeForm = this.calendar;
-        this.showActive();
+        this.showForm(this.calendar);
     }
     
     public void showQuickstart(){
-        this.hideActive();
-        this.activeForm = this.quickstart;
-        this.showActive();
+        this.showForm(this.quickstart);
     }
     
     public void showSettings(){
-        this.hideActive();
-        this.activeForm = this.settings;
-        this.showActive();
+        this.showForm(this.settings);
     }
 
 }

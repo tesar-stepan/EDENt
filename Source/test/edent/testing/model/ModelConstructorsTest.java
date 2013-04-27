@@ -4,7 +4,7 @@
  */
 package edent.testing.model;
 
-import edent.controller.hibernate.HibernateController;
+import edent.controller.HibernateController;
 import edent.controller.hibernate.HibernateSessionFactory;
 import edent.model.Appointment;
 import edent.model.Diagnosis;

@@ -4,8 +4,6 @@
  */
 package edent.view.forms;
 
-import java.awt.Component;
-
 /**
  *
  * @author Stepan Tesar
@@ -21,12 +19,17 @@ public class UserForm extends EdentForm {
     
     @Override
     public void setEditing(Object o){
-        throw new UnsupportedOperationException("Not supported yet.");
+            
     }
     
     @Override
     public void setCreating() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+    }
+    
+    @Override
+    public void resetForm(){
+    
     }
     
     /**

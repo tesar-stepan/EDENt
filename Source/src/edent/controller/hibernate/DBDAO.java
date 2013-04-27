@@ -1,5 +1,6 @@
 package edent.controller.hibernate;
 
+import edent.controller.HibernateController;
 import java.io.Serializable;
 import java.util.List;
 
@@ -87,7 +88,8 @@ public class DBDAO implements Serializable {
      * @return List odpovodajicich instanci dane tridy.
      */
     public static List findAll(String className) {
-        return HibernateController.findAll(className);
+        List l = HibernateController.findAll(className);
+        return l;
     }
 
     /**

@@ -4,8 +4,6 @@
  */
 package edent.view.forms;
 
-import java.awt.Component;
-
 /**
  *
  * @author Stepan Tesar
@@ -20,14 +18,13 @@ public class AppointmentDetailsForm extends EdentForm {
     }
     
     @Override
-    public void setEditing(Object o) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    public void setEditing(Object o){}
+    
     @Override
-    public void setCreating() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    public void setCreating(){}
+    
+    @Override
+    public void resetForm(){}
 
     /**
      * This method is called from within the constructor to initialize the form.

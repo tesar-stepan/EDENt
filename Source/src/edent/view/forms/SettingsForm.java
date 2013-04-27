@@ -5,14 +5,14 @@
 package edent.view.forms;
 
 import edent.view.MainFrame;
-import edent.view.utils.SettingsButton;
-import edent.view.utils.SettingsButtonApplication;
-import edent.view.utils.SettingsButtonPatients;
-import edent.view.utils.SettingsButtonUsers;
-import edent.view.utils.SettingsMainPanel;
-import edent.view.utils.SettingsPanelApplication;
-import edent.view.utils.SettingsPanelPatients;
-import edent.view.utils.SettingsPanelUsers;
+import edent.view.utils.settings.SettingsButton;
+import edent.view.utils.settings.SettingsButtonApplication;
+import edent.view.utils.settings.SettingsButtonPatients;
+import edent.view.utils.settings.SettingsButtonUsers;
+import edent.view.utils.settings.SettingsMainPanel;
+import edent.view.utils.settings.SettingsPanelApplication;
+import edent.view.utils.settings.SettingsPanelPatients;
+import edent.view.utils.settings.SettingsPanelUsers;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -128,6 +128,15 @@ public class SettingsForm extends EdentForm{
 
     @Override
     public void setCreating() {
+    }
+    
+    @Override
+    public void resetForm(){
+        this.mainPanel.removeAll();
+        this.activeApplication = false;
+        this.activePatients = false;
+        this.activeUsers = false;
+        this.deselectButtons();
     }
 
     /**

@@ -27,14 +27,18 @@ public abstract class EdentForm extends javax.swing.JPanel {
     
     public abstract void setCreating();
     
-    public void displayPrevious(){
+    public EdentForm displayPrevious(){
+        this.setVisible(false);
         if(this.previous!=null){
             previous.setVisible(true);
         }
+        return this.previous;
     }
 
     public void setPrevious(EdentForm previous) {
         this.previous = previous;
     }
+    
+    public abstract void resetForm();
                     
 }

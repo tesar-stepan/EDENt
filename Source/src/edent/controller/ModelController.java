@@ -4,7 +4,9 @@
  */
 package edent.controller;
 
+import edent.controller.hibernate.DBDAO;
 import edent.controller.hibernate.HibernateSessionFactory;
+import java.util.List;
 import org.hibernate.Session;
 
 /**
@@ -13,11 +15,11 @@ import org.hibernate.Session;
  */
 public class ModelController {
     private static ModelController instance = new ModelController();
-    private static Session session = HibernateSessionFactory.getSession();
+    private static Session session;
     
     public ModelController(){
-//        HibernateSessionFactory.getSessionFactory();
-//        Session sf = ;
+        HibernateSessionFactory.getSessionFactory();
+        session = HibernateSessionFactory.getSession();
         session.beginTransaction();
     }
     
@@ -27,6 +29,15 @@ public class ModelController {
     
     public static void shutDown(){
         session.disconnect();
+    }
+    
+    private List getAllOf(String cls){
+        List list = DBDAO.findAll(cls);
+        return list;
+    }
+    
+    public List getToothStates(){
+        return this.getAllOf("ToothState");
     }
     
     

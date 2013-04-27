@@ -17,13 +17,11 @@ public class History implements java.io.Serializable{
     private Diagnosable owner;
     
     protected History(){
-        System.out.println("------------------>>>history created "+owner);
     }
 
     protected History(Diagnosable owner) {
         this.owner = owner;
         this.diagnoses = new ArrayList<>();
-        System.out.println("------------------>>>history created "+this.owner);
     }
     
     public void addDiagnosis(Diagnosis diagnosis, long date){
@@ -44,7 +42,9 @@ public class History implements java.io.Serializable{
     }
 
     private void setTooth(Tooth tooth) {
-        if(tooth!=null)this.owner = tooth;
+        if(tooth!=null){
+            this.owner = tooth;
+        }
     }
 
     public Gum getGum() {
@@ -56,7 +56,9 @@ public class History implements java.io.Serializable{
     }
 
     private void setGum(Gum gum) {
-        if(gum!=null)this.owner = gum;
+        if(gum!=null){
+            this.owner = gum;
+        }
     }
 
     public Mouth getMouth() {
@@ -67,7 +69,9 @@ public class History implements java.io.Serializable{
     }
 
     private void setMouth(Mouth mouth) {
-        if(mouth!=null)this.owner = mouth;
+        if(mouth!=null){
+            this.owner = mouth;
+        }
     }
 
     public long getId() {

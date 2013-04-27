@@ -214,7 +214,7 @@ public class SidePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_settingsButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ViewController.showUnlogged();
+        ViewController.showPrevious();
         deselectButtons();
     }//GEN-LAST:event_jButton1ActionPerformed
 

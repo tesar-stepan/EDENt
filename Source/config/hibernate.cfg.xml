@@ -7,7 +7,7 @@
     <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/EDENt</property>
     <property name="hibernate.connection.username">postgres</property>
     <property name="hibernate.connection.password">phorekh</property>
-    <property name="hibernate.hbm2ddl.auto">create-drop</property>
+    <property name="hibernate.hbm2ddl.auto">validate</property>
     <mapping resource="edent/model/hibernate/Appointment.xml"/>
     <mapping resource="edent/model/hibernate/Diagnosis.xml"/>
     <mapping resource="edent/model/hibernate/Gum.xml"/>
