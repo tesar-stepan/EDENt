@@ -8,12 +8,12 @@ package edent.view.utils.settings;
  *
  * @author Stepan Tesar
  */
-public class SettingsPanelPatients extends SettingsMainPanel {
+public class SettingsPanelUsers extends SettingsMainPanel {
 
     /**
-     * Creates new form SettingsPanelPatients
+     * Creates new form SettingsPanelUsers
      */
-    public SettingsPanelPatients() {
+    public SettingsPanelUsers() {
         initComponents();
     }
 
@@ -30,7 +30,7 @@ public class SettingsPanelPatients extends SettingsMainPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Patinets");
+        jLabel1.setText("Users");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -39,14 +39,14 @@ public class SettingsPanelPatients extends SettingsMainPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(351, Short.MAX_VALUE))
+                .addContainerGap(131, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(275, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables

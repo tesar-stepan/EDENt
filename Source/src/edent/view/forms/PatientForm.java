@@ -8,23 +8,29 @@ package edent.view.forms;
  *
  * @author Stepan Tesar
  */
-public class PatientForm extends EdentForm {
+public class UserForm extends EdentForm {
 
     /**
-     * Creates new form Patient
+     * Creates new form User
      */
-    public PatientForm() {
+    public UserForm() {
         initComponents();
     }
     
     @Override
-    public void setEditing(Object o){}
+    public void setEditing(Object o){
+            
+    }
     
     @Override
-    public void setCreating(){}
+    public void setCreating() {
+        
+    }
     
     @Override
-    public void resetForm(){}
+    public void resetForm(){
+    
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -48,4 +54,7 @@ public class PatientForm extends EdentForm {
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
+
+    
+
 }
