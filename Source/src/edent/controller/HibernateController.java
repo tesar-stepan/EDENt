@@ -5,6 +5,7 @@
 package edent.controller;
 
 import edent.controller.hibernate.HibernateSessionFactory;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
@@ -25,13 +26,14 @@ public class HibernateController {
      * @param object objekt ktery se ma ulozit do databaze
      */
     public static void create(Object object) {
-        System.out.println("HBTC: creating "+object);
+        session.flush();
         Transaction tx = null;
 
         try {
             tx = session.beginTransaction();
             session.save(object);
             tx.commit();
+            System.out.println("HBTC: creating "+object.toString()+" (new object)");
         } catch (Exception ex) {
             ex.printStackTrace();
             if (tx != null && tx.isActive()) {
@@ -46,6 +48,7 @@ public class HibernateController {
      * @param object objekt ktery ma byt smazan z databaze
      */
     public static void delete(Object object) {
+        System.out.println("HBTC: deleting "+object.toString());
         Transaction tx = null;
 
         try {
@@ -66,6 +69,7 @@ public class HibernateController {
      * @param object object ktery chceme aktualizovat
      */
     public static void update(Object object) {
+        System.out.println("HBTC: updating "+object.toString());
         Transaction tx = null;
 
         try {
@@ -92,16 +96,17 @@ public class HibernateController {
     public static List executeQuery(String queryText, String[] parameterNames, String[] parameterTypes, Object[] parameterValues) {
         if (parameterNames.length != parameterValues.length ||
                 parameterTypes.length != parameterNames.length) {
-            System.out.println("executeQ params length error");
+            System.out.println("execute params length error: "+parameterNames.length+" : "+parameterValues.length+" : "+parameterTypes.length);
             return null;
         }
 
         Transaction tx = null;
-
+        Query query = null;
+        
         try {
 
             tx = session.beginTransaction();
-            Query query = session.createQuery(queryText);
+            query = session.createQuery(queryText);
 
             for (int i = 0; i < parameterNames.length; i++) {
                 String parameterType = parameterTypes[i].toLowerCase();
@@ -109,9 +114,8 @@ public class HibernateController {
                     case "string":
                         query.setString(parameterNames[i], (String) parameterValues[i]);
                         break;
-                    case "int":
-                    case "integer":
-                        query.setInteger(parameterNames[i], (Integer) parameterValues[i]);
+                    case "long":
+                        query.setLong(parameterNames[i], (Long) parameterValues[i]);
                         break;
                     case "date":
                         query.setDate(parameterNames[i], (Date) parameterValues[i]);
@@ -145,9 +149,9 @@ public class HibernateController {
      *
      * @return odpovidajici databazovy zaznam
      */
-    public static Object findById(String className, String column, Integer id) {
+    public static Object findById(String className, String column, Long id) {
         String[] paramNames = {"id"};
-        String[] paramTypes = {"Integer"};
+        String[] paramTypes = {"Long"};
         Object[] paramValues = {id};
 
         //String idParamName = className.substring(0, 1).toLowerCase() + className.substring(1) + "ID";
@@ -164,97 +168,27 @@ public class HibernateController {
     }
 
     /**
-     * Metoda navraci odpovidajici instanci potomka tridy DBDAO. Vraci pouze
-     * nesmazane zaznamy.
-     *
-     * @param className nazev tridy, pro kterou hledame zaznam
-     * @param columnId oznacuje nazev sloupce, kde je uvedeno ID
-     * @param id id hodnota, podle ktere se bude vyhledavat
-     * @param columnDel nazev sloupce, kde je uvedena hodnota, podle ktere se
-     * rozhoduje zda je dany zaznam smazan ci nikoliv
-     * @param del ID hodnota, ktera oznacuje nesmazany zaznam
-     * @return odpovidajici instance potomka tridy DBDAO
-     */
-    public static Object findByIdNotDeleted(String className, String columnId, Integer id, String columnDel, Integer del) {
-        String[] paramNames = {"id", "del"};
-        String[] paramTypes = {"Integer", "Integer"};
-        Object[] paramValues = {id, del};
-
-        // POZOR, tady parametrem neni nazev tabulky a sloupecku, ale nazev tridy a jejich atributu
-        String query = "from " + className + " x where x." + columnId + " = :id and x." + columnDel + " = :del";
-        List res = executeQuery(query, paramNames, paramTypes, paramValues);
-
-        if (res == null || res.isEmpty()) {
-            return null;
-        }
-        return (Object) res.get(0);
-    }
-
-    /**
      * Vrati vsechny zaznamy pro danou tridu.
      *
      * @param className nazev tridy
-     * @return List odpovodajicich instanci dane tridy.
+     * @return List odpovodajicich instanci dane tridy, serazeny podle ID.
      */
     public static List findAll(String className) {
-        List res = executeQuery("from " + className + " x", new String[0], new String[0], new Object[0]);
+        return findAll(className, "id");
+    }
+    
+    /**
+     * Finds all objects of given class, ordered ascendingly by given parameter.
+     * @param className
+     * @param orderBy
+     * @return 
+     */
+    public static List findAll(String className, String orderBy){
+        List res = executeQuery("from " + className + " x order by "+orderBy, new String[0], new String[0], new Object[0]);
         if (res == null || res.isEmpty()) {
             return null;
         }
         return res;
-    }
-
-    /**
-     * Metoda navraci seznam vsech databazovych zaznamu tridy "className", ktere
-     * nejsou smazany (flag "isDeleted" je nastaven na 0).
-     *
-     * @param className nazev tridy
-     * @param columnDeleted nazev sloupce, kde je uvedena hodnota, podle ktere
-     * se rozhoduje zda je dany zaznam smazan ci nikoliv
-     * @param del ID hodnota, ktera oznacuje nesmazany zaznam
-     * @return list odpovodajicich instanci dane tridy
-     */
-    public static List findAllNotDeleted(String className, String columnDeleted, Integer del) {
-        String[] paramNames = {"del"};
-        String[] paramTypes = {"Integer"};
-        Object[] paramValues = {del};
-
-        String query = "from " + className + " x where x." + columnDeleted + " = :del";
-        List res = executeQuery(query, paramNames, paramTypes, paramValues);
-
-        if (res == null || res.isEmpty()) {
-            return null;
-        }
-
-        return res;
-    }
-
-    /**
-     * Metoda najde zaznam, jenz odpovida specifikovanym parametrum. Vraci pouze
-     * nesmazane zaznamy.
-     *
-     * @param className nazev tridy, jejiz zaznam hledame
-     * @param columnName nazev promenne (sloupce v databazi) pro ktery hledame odpovidajici hodnotu
-     * @param name hodnota, podle ktere se vyhledava odpovidajici zaznam
-     * @param columnDel nazev sloupce, kde je uvedena hodnota, podle ktere se
-     * rozhoduje zda je dany zaznam smazan ci nikoliv
-     * @param del ID hodnota, ktera oznacuje nesmazany zaznam
-     * @return instance daneho potomku tridy DBDAO
-     */
-    public static Object findByStringNameNotDeleted(String className, String columnName, String name, String columnDel, Integer del) {
-        String[] paramNames = {"name", "del"};
-        String[] paramTypes = {"String", "Integer"};
-        Object[] paramValues = {name, del};
-
-        String query = "from " + className + " x where x." + columnName + " = :name and x." + columnDel + " = :del";
-        List res = executeQuery(query, paramNames, paramTypes, paramValues);
-
-        if (res == null || res.isEmpty()) {
-            //System.out.println("res was empty or null");
-            return null;
-        }
-        //System.out.println("res not empty: "+(Object) res.get(0));
-        return (Object) res.get(0);
     }
 
     /**
@@ -262,17 +196,17 @@ public class HibernateController {
      *
      * @param className nazev tridy, jejiz zaznam hledame
      * @param column nazev promenne (sloupce v databazi) pro ktery hledame odpovidajici hodnotu
-     * @param name hodnota, podle ktere se vyhledava odpovidajici zaznam
+     * @param value hodnota, podle ktere se vyhledava odpovidajici zaznam
      * @return
      */
-    public static Object findByStringName(String className, String column, String name) {
+    public static Object findByStringColumnValue(String className, String column, String value) {
         String[] paramNames = {"name"};
         String[] paramTypes = {"String"};
-        Object[] paramValues = {name};
+        Object[] paramValues = {value};
 
         String idParamName = column;
 
-        List res = executeQuery("from " + className + " x where x." + idParamName + " = :name", paramNames, paramTypes, paramValues);
+        List res = executeQuery("from " + className + " x where x." + idParamName + " = :name ", paramNames, paramTypes, paramValues);
 
         if (res == null || res.isEmpty()) {
             return null;
@@ -281,4 +215,48 @@ public class HibernateController {
         return (Object) res.get(0);
     }
     
+    /**
+     * WARNING - to save time, this method only works for filetring patients by
+     * fname, sname and birthdate. Editing for general use can be done just by
+     * creating a dynamic WHERE x LIKE :param AND clauses, based on given
+     * parameters length.
+     * Finds a ist of objects of given class matching the given string columns in a
+     * pattern string%, that is, the objects with value the specified string value beginning with
+     * given value, and also exactly matching the given long value.
+     * @param className
+     * @param columns the colums to match the values, including the last long column
+     * @param stringValues the string values to be matched by LIKE string%
+     * @param longValue the long value to be exactly matched. set to -1 to disconsider this value;
+     * @param orderBy column name for the ORDER BY command.
+     * @return 
+     */
+    public static List findByStringsAndLong(String className, String[] columns, String[] stringValues, Long longValue, String orderBy) {
+//        System.out.println("");
+        String[] paramNames = (longValue!=-1)?columns:Arrays.copyOfRange(columns, 0, columns.length-1);
+        
+        int lenght = (longValue!=-1)?columns.length:columns.length-1;
+        String[] paramTypes = new String[lenght];
+        for(int i = 0; i < paramTypes.length; i++){
+            paramTypes[i] = "String";
+        }
+        
+        if(longValue!=-1){
+            paramTypes[columns.length-1] = "Long";
+        }
+        
+        Object[] paramValues = new Object[paramTypes.length];
+        for (int i = 0; i < paramValues.length; i++) {
+            if(i<stringValues.length) {
+                paramValues[i] = stringValues[i]+"%";
+            } else {
+                paramValues[i] = longValue;
+            }
+        }
+        String bdate = (longValue!=-1)?"and x.birthdate = :bdate":"";
+              
+        List res = executeQuery("from " + className + " x where x.fname like :fname and x.sname like :sname " + bdate + " order by "+orderBy, paramNames, paramTypes, paramValues);
+
+        return res;
+    }
+
 }

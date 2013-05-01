@@ -12,7 +12,7 @@
             <column name="note" not-null="false"/>
         </property>
         <many-to-one name="creator" class="edent.model.User">
-            <column name="creator" not-null="true"/>
+            <column name="creator" not-null="false"/>
         </many-to-one>
         <many-to-one name="patient" class="edent.model.Patient">
             <column name="patient" not-null="true"/>

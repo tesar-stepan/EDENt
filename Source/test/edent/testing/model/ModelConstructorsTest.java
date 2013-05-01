@@ -37,12 +37,12 @@ public class ModelConstructorsTest {
         
         System.out.println("database connected");
         
-        User u = new User("franta", "novak", "drnovak", "doc", "phd", UserType.doctor);
-        System.out.println("create test");
+//        User u = new User("franta", "novak", "drnovak", "doc", "phd", UserType.doctor);
+//        System.out.println("create test");
         
         System.out.println("select test");
-        HibernateController.create(u);
-        u = (User) HibernateController.findById("User", "id", 1);
+        //HibernateController.create(u);
+        User u = (User) HibernateController.findById("User", "id", (long)2);
         System.out.println(u);
         
         System.out.println("edit test");
@@ -68,10 +68,10 @@ public class ModelConstructorsTest {
         System.out.println("create gum");
         HibernateController.create(gum);
         
-        ToothState ts = new ToothState("Ok", "K", null, null);
-        System.out.println("create tooth state");
-        HibernateController.create(ts);
-        
+//        ToothState ts = new ToothState("Ok", "K", null, null);
+//        System.out.println("create tooth state");
+//        HibernateController.create(ts);
+        ToothState ts = (ToothState) HibernateController.findById("ToothState", "id", (long)1);
         
         Tooth t = new Tooth(ts, false, true, true, 1, gum, m);
         System.out.println("create tooth");

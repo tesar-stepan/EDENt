@@ -94,11 +94,17 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     private void showActive(){
+        if(this.activeForm.equals(this.settings)){
+            this.sidePanel.setSettingsSelected();
+        }
         this.activeForm.setVisible(true);
         this.activeForm.setSize(this.mainPanel.getSize());
     }
     
     private void hideActive(){
+        if(this.activeForm.equals(this.settings)){
+            this.sidePanel.deselectButtons();
+        }
         this.activeForm.resetForm();
         this.activeForm.setVisible(false);
     }
@@ -114,12 +120,16 @@ public class MainFrame extends javax.swing.JFrame {
      * Public methods
      ***************************************************/
     
+    /**
+     * Functionality is currently disabled because of problems with editing forms.
+     * Unlogged for is always displayed.
+     */
     public void showPrevious(){
         this.hideActive();
-        this.activeForm = this.activeForm.displayPrevious();
-        if(this.activeForm==null){
+//        this.activeForm = this.activeForm.displayPrevious();
+//        if(this.activeForm==null||this.activeForm==this.userForm||this.activeForm==this.patientForm){
             this.activeForm = this.unlogged;
-        }
+//        }
         this.showActive();
     }
     
@@ -157,6 +167,14 @@ public class MainFrame extends javax.swing.JFrame {
     
     public void showSettings(){
         this.showForm(this.settings);
+    }
+    
+    public void setFormEditing(Object o){
+        this.activeForm.setEditing(o);
+    }
+    
+    public void setFormCreating(){
+        this.activeForm.setCreating();
     }
 
 }

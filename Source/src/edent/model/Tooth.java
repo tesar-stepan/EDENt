@@ -4,6 +4,8 @@
  */
 package edent.model;
 
+import edent.model.utils.Organ;
+
 /**
  *
  * @author Stepan Tesar

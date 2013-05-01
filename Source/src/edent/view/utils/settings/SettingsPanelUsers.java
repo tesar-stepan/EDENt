@@ -4,17 +4,75 @@
  */
 package edent.view.utils.settings;
 
+import edent.controller.ViewController;
+import edent.model.User;
+import edent.view.utils.UserLine;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
+import java.util.List;
+
 /**
  *
  * @author Stepan Tesar
  */
 public class SettingsPanelUsers extends SettingsMainPanel {
 
+    private static final String DOCTOR_TYPE = "Doktor";
+    private static final String NURSE_TYPE = "Sestra";
+    private static final String ADD_USER_BUTTON_LABEL = "Vytvořit nového uživatele";
+    private static final String HEADER_NAME = "Jméno";
+    private static final String HEADER_TYPE = "Typ";
+    private static final int LINE_HEIGHT = 54;
+
     /**
      * Creates new form SettingsPanelUsers
      */
     public SettingsPanelUsers() {
         initComponents();
+        myInit();
+    }
+
+    private void myInit() {
+        UserLine lineNew = new UserLine(ADD_USER_BUTTON_LABEL, "", -1, false, false);
+        addPanel.add(lineNew, BorderLayout.CENTER);
+        
+        UserLine header = new UserLine(HEADER_NAME, HEADER_TYPE, -1, true, false, true, false, false, -1);
+        headerPanel.add(header);
+
+        List<User> users = ViewController.modelFacade().getUsers();
+
+        int maxSize = LINE_HEIGHT * users.size();
+        int mainSize = Toolkit.getDefaultToolkit().getScreenSize().height - addPanel.getSize().height - headerPanel.getSize().height;
+        if (maxSize > mainSize) {
+            Dimension dim = new Dimension(mainPanel.getWidth(), maxSize);
+            mainPanel.setPreferredSize(dim);
+            mainPanel.revalidate();
+        }
+        
+        int maxRows = mainSize/LINE_HEIGHT;
+        int rows = users.size();
+        if(maxRows > rows){
+            rows = maxRows;
+        }
+        
+        GridLayout grid = new GridLayout(rows, 1);
+        this.mainPanel.setLayout(grid);
+
+        int i = 0;
+        for (User u : users) {
+            String name = u.getTitlePre() + " " + u.getFname() + " " + u.getSname() + " " + u.getTitlePos();
+            String type = null;
+            switch(u.getType()){
+                case doctor: type = DOCTOR_TYPE; break;
+                case nurse: type = NURSE_TYPE; break;
+            }
+            UserLine line = new UserLine(name, type, u.getId(), true, i % 2 == 0);
+            this.mainPanel.add(line);
+            i++;
+        }
+
     }
 
     /**
@@ -26,11 +84,38 @@ public class SettingsPanelUsers extends SettingsMainPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        headerPanel = new javax.swing.JPanel();
+        mainScrollPane = new javax.swing.JScrollPane();
+        mainPanel = new javax.swing.JPanel();
+        addPanel = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setText("Users");
+        headerPanel.setBackground(new java.awt.Color(255, 255, 255));
+        headerPanel.setLayout(new java.awt.BorderLayout());
+
+        mainScrollPane.setBackground(new java.awt.Color(255, 255, 255));
+        mainScrollPane.setBorder(null);
+        mainScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        mainScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 908, Short.MAX_VALUE)
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 632, Short.MAX_VALUE)
+        );
+
+        mainScrollPane.setViewportView(mainPanel);
+
+        addPanel.setBackground(new java.awt.Color(255, 255, 255));
+        addPanel.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -38,18 +123,28 @@ public class SettingsPanelUsers extends SettingsMainPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(131, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mainScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE)
+                    .addComponent(headerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(addPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addComponent(headerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 584, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4))
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel addPanel;
+    private javax.swing.JPanel headerPanel;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JScrollPane mainScrollPane;
     // End of variables declaration//GEN-END:variables
 }

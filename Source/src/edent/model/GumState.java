@@ -4,29 +4,22 @@
  */
 package edent.model;
 
+import edent.model.utils.OrganState;
+
 /**
  *
  * @author Stepan Tesar
  */
 public class GumState extends OrganState implements java.io.Serializable{
-    /**
-     * The little icon displayed near the gum in this state.
-     */
-    private String icon;
 
-    public GumState(String icon, String name, String mark) {
-        super(name, mark);
-        this.icon = icon;
+    public GumState() {
+        
+    }
+    
+    public GumState(String name, String mark, String icon) {
+        super(name, mark, icon);
     }
     
     //getters and setters
-
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
     
 }

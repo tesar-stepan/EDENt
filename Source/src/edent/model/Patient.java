@@ -5,6 +5,8 @@
 package edent.model;
 
 import edent.controller.HibernateController;
+import edent.view.utils.EdentInlineEditableObject;
+import edent.view.utils.TimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,12 +14,12 @@ import java.util.Set;
  *
  * @author Stepan Tesar
  */
-public class Patient implements java.io.Serializable{
+public class Patient implements java.io.Serializable, EdentInlineEditableObject {
     private long id;
     private String fname;
     private String sname;
-    private String birthNum;
-    private long birthDate;
+    private String birthnum;
+    private long birthdate;
     private long created;
     //img swill be loaded by the uname from a specific directory, no need to save in db or object, only serves for GUI
     
@@ -28,13 +30,13 @@ public class Patient implements java.io.Serializable{
         
     }
 
-    public Patient(String fname, String sname, String birthNum, long birthDate, long created) {
+    public Patient(String fname, String sname, String birthNum, long birthDate, long created, Set<User> doctors) {
         this.fname = fname;
         this.sname = sname;
-        this.birthNum = birthNum;
-        this.birthDate = birthDate;
+        this.birthnum = birthNum;
+        this.birthdate = birthDate;
         this.created = created;
-        this.doctors = new HashSet<>();
+        this.doctors = doctors;
         
         HibernateController.create(this);
         Mouth m = new Mouth(null, null, this);
@@ -42,12 +44,18 @@ public class Patient implements java.io.Serializable{
         this.mouth = m;
     }
     
-    public void addDoctor(User u){
-        this.doctors.add(u);
+    private void update(){
+        HibernateController.update(this);
     }
     
-    public boolean deleteDoctor(User u){
-        return this.doctors.remove(u);
+    public void addDoctor(User u){
+        this.doctors.add(u);
+        update();
+    }
+    
+    public void deleteDoctor(User u){
+        this.doctors.remove(u);
+        update();
     }
     
     //getters and setters
@@ -76,20 +84,20 @@ public class Patient implements java.io.Serializable{
         this.sname = sname;
     }
 
-    public String getBirthNum() {
-        return birthNum;
+    public String getBirthnum() {
+        return birthnum;
     }
 
-    public void setBirthNum(String birthNum) {
-        this.birthNum = birthNum;
+    public void setBirthnum(String birthNum) {
+        this.birthnum = birthNum;
     }
 
-    public long getBirthDate() {
-        return birthDate;
+    public long getBirthdate() {
+        return birthdate;
     }
 
-    public void setBirthDate(long birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthdate(long birthDate) {
+        this.birthdate = birthDate;
     }
 
     public long getCreated() {
@@ -114,6 +122,38 @@ public class Patient implements java.io.Serializable{
 
     private void setDoctors(Set<User> doctors) {
         this.doctors = doctors;
+    }
+    
+    @Override
+    public String toString(){
+        return getClass()+":"+this.getId();
+    }
+    
+    @Override
+    public void setStringValue(String name, String value) {
+        switch (name) {
+            case "sname":
+                this.setSname(value);
+                break;
+            case "fname":
+                this.setFname(value);
+                break;
+            case "bdate":
+                long bdate = TimeFormatter.getPatientsBDate(value);
+                if(bdate!=-1){
+                    this.setBirthdate(bdate);
+                }else{
+                    System.out.println("Invalid date property: "+value);
+                }
+                break;
+            case "bnum":
+                this.setBirthnum(value);
+                break;
+            default:
+                System.err.println("Property "+name+" not found in class Patient. Tried to assign value: "+value);
+                break;
+        }
+        this.update();
     }
     
 }

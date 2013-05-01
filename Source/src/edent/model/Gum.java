@@ -4,6 +4,8 @@
  */
 package edent.model;
 
+import edent.model.utils.Organ;
+
 /**
  *
  * @author Stepan Tesar
@@ -14,7 +16,7 @@ public class Gum extends Organ implements java.io.Serializable{
     public Gum(GumState state, Mouth mouth) {
         super(mouth);
         this.state = state;
-        System.out.println("Gum construct finished");
+//        System.out.println("Gum construct finished");
     }
     
     //getters and setters

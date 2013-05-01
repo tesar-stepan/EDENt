@@ -22,7 +22,7 @@ public class SettingsButton extends EdentButton {
      * @param text the label of the button.
      */
     public SettingsButton(String text) {
-        super(text, new java.awt.Dimension(280, 90), EdentButton.DEFAULT_FONT_SIZE, EdentButtonColor.blue, BorderLayout.EAST);
+        super(text, new java.awt.Dimension(240, 90), EdentButton.DEFAULT_FONT_SIZE, EdentButtonColor.blue, BorderLayout.EAST);
     }
 
 }

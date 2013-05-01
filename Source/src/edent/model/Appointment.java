@@ -1,5 +1,6 @@
 package edent.model;
 
+import edent.controller.HibernateController;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,12 +24,17 @@ public class Appointment implements java.io.Serializable{
     private Patient patient;
     private List<Diagnosis> diagnoses;
 
-    public Appointment(long date, User creator, Patient patient) {
+    public Appointment(long date, String note, User creator, Patient patient) {
         this.date = date;
+        this.note = note;
         this.creator = creator;
         this.patient = patient;
         this.diagnoses = new ArrayList<>();
         this.servers = new HashSet<>();
+    }
+    
+    private void update(){
+        HibernateController.update(this);
     }
     
     public void addServer(User server){
@@ -104,6 +110,16 @@ public class Appointment implements java.io.Serializable{
 
     public void setServers(Set<User> servers) {
         this.servers = servers;
+    }
+    
+    @Override
+    public String toString(){
+        return getClass()+":"+this.getId();
+    }
+    
+    public void changePatient(Patient p){
+        this.setPatient(p);
+        update();
     }
     
 }

@@ -5,8 +5,11 @@
 package edent.view.utils.settings;
 
 import edent.controller.ViewController;
-import edent.model.ToothState;
+import edent.model.utils.OrganState;
 import edent.view.utils.OrganStateLine;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.List;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
@@ -16,56 +19,113 @@ import javax.swing.GroupLayout.SequentialGroup;
  * @author Stepan Tesar
  */
 public class SettingsPanelApplication extends SettingsMainPanel {
+
     private static final String TS_LABEL = "Nastavení stavů zubů";
     private static final String GS_LABEL = "Nastavení stavů dásní";
-    private static final String INFO = "Změnu údajů provedete kliknutím na položku, kterou chcete upravit. Po uložení údajů se v pravo zobrazí potvrzení. \r\nPro smazání klepněte na tlačítko s křížkem.";
+    private static final String INFO = "Změnu údajů provedete kliknutím na položku, "
+            + "kterou chcete upravit. Po uložení údajů se v pravo zobrazí potvrzení. "
+            + "\r\nPro smazání klepněte na tlačítko s křížkem."
+            + "\r\nPřidání nové položky proveďte na spodním konci seznamu.";
+    public static final String ADD_TEXT = "Zadejte jméno";
+    
+    private StatePanel toothStatePanel = new StatePanel(true);
+    private StatePanel gumStatePanel = new StatePanel(false);
 
     /**
      * Creates new form SettingsPanelApplication
      */
     public SettingsPanelApplication() {
         initComponents();
-        this.toothStateLabel.setText(TS_LABEL);
-        this.gumStateLabel.setText(GS_LABEL);
-        this.infoArea.setText(INFO);
+        Dimension dim = new Dimension(SettingsPanelApplication.WIDTH, (Toolkit.getDefaultToolkit().getScreenSize().height/2));
+        toothStatePanel.setSize(dim);
+        toothStatePanel.setPreferredSize(dim);
+        //toothStatePanel.toothStatePanel.setPreferredSize(dim);
+        gumStatePanel.setSize(dim);
+        gumStatePanel.setPreferredSize(dim);
         
-        this.createList();
+        toothStatePanel.stateLabel.setText(TS_LABEL);
+        gumStatePanel.stateLabel.setText(GS_LABEL);
         
-//        OrganStateLine line1 = new OrganStateLine("V pořádku", "", "", 1);
-//        OrganStateLine line2 = new OrganStateLine("Vytržený", "", "+", 2);
-//        OrganStateLine line3 = new OrganStateLine("Kaz", "", "/", 3);
+        toothStatePanel.infoArea.setText(INFO);
+
+        this.createToothList();
+        this.createGumList();
     }
     
-    private void createList(){
-        List<ToothState> states = ViewController.modelFacade().getToothStates();
+    /**
+     * 
+     * @param type "ToothState" or "GumState";
+     * @param where BorderLayout.NORTH or BorderLayout.CENTER.
+     */
+    private void createList(String type, String where) {
+        List<OrganState> states = null;
+        StatePanel statePanel = null;
         
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this.panelToothStateList);
-        this.panelToothStateList.setLayout(layout);
+        switch(type){
+            case "ToothState": 
+                statePanel = this.toothStatePanel;
+                states = ViewController.modelFacade().getToothStates();
+                break;
+            case "GumState":
+                statePanel = this.gumStatePanel;
+                states = ViewController.modelFacade().getGumStates();
+                break;
+        }
         
+        statePanel.panelStateList.removeAll();
+        
+
+        //creating list layout
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(statePanel.panelStateList);
+        statePanel.panelStateList.setLayout(layout);
+
+        //adding components for every existing ToothState to list
         ParallelGroup pg = layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false);
         SequentialGroup sg = layout.createSequentialGroup();
         sg.addContainerGap();
-        for(ToothState s: states){
-            OrganStateLine line = new OrganStateLine(s.getName(), s.getIcon(), s.getMark(), s.getId());
-            pg.addComponent(line, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
-            
-            sg.addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
+        if (states != null) {
+            for (OrganState s : states) {
+                OrganStateLine line = new OrganStateLine(s.getName(), s.getIcon(), s.getMark(), s.getId(), this, type);
+                pg.addComponent(line, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE);
+
+                sg.addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
+            }
         }
-        
+
+        //adding ADD ToothState lines
+        OrganStateLine line = new OrganStateLine(ADD_TEXT, this, type);
+        pg.addComponent(line);
+
+        sg.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(line, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
         sg.addContainerGap();
-        
+
+        //adding list to layout
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pg)
-                .addContainerGap())
-        );
+                .addContainerGap()));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(sg)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(sg));
+        
+        this.add(statePanel, where);
+        statePanel.panelStateList.revalidate();
+        this.revalidate();
+    }
+    
+    
+    
+    public final void createToothList(){
+        this.createList("ToothState", BorderLayout.NORTH);
+    }
+    
+    public final void createGumList(){
+        this.createList("GumState", BorderLayout.CENTER);
     }
 
     /**
@@ -77,123 +137,10 @@ public class SettingsPanelApplication extends SettingsMainPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        toothStatePanel = new javax.swing.JPanel();
-        toothStateLabel = new javax.swing.JLabel();
-        panelToothStateList = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        infoArea = new javax.swing.JTextArea();
-        gumStatePanel = new javax.swing.JPanel();
-        gumStateLabel = new javax.swing.JLabel();
-        panelGumStateList = new javax.swing.JPanel();
-
         setBackground(new java.awt.Color(255, 255, 255));
-        setAutoscrolls(true);
-
-        toothStateLabel.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        toothStateLabel.setText("jLabel1");
-
-        panelToothStateList.setLayout(new java.awt.CardLayout());
-
-        infoArea.setEditable(false);
-        infoArea.setColumns(5);
-        infoArea.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        infoArea.setLineWrap(true);
-        infoArea.setRows(5);
-        infoArea.setWrapStyleWord(true);
-        infoArea.setAutoscrolls(false);
-        infoArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        infoArea.setFocusable(false);
-        infoArea.setHighlighter(null);
-        infoArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        infoArea.setOpaque(false);
-        infoArea.setRequestFocusEnabled(false);
-        jScrollPane1.setViewportView(infoArea);
-        infoArea.getAccessibleContext().setAccessibleParent(toothStatePanel);
-
-        javax.swing.GroupLayout toothStatePanelLayout = new javax.swing.GroupLayout(toothStatePanel);
-        toothStatePanel.setLayout(toothStatePanelLayout);
-        toothStatePanelLayout.setHorizontalGroup(
-            toothStatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(toothStatePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(toothStatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelToothStateList, javax.swing.GroupLayout.PREFERRED_SIZE, 361, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(toothStateLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        toothStatePanelLayout.setVerticalGroup(
-            toothStatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(toothStatePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(toothStatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(toothStatePanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(toothStatePanelLayout.createSequentialGroup()
-                        .addComponent(toothStateLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(panelToothStateList, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-
-        gumStateLabel.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        gumStateLabel.setText("jLabel1");
-
-        javax.swing.GroupLayout gumStatePanelLayout = new javax.swing.GroupLayout(gumStatePanel);
-        gumStatePanel.setLayout(gumStatePanelLayout);
-        gumStatePanelLayout.setHorizontalGroup(
-            gumStatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(gumStatePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(gumStatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(gumStatePanelLayout.createSequentialGroup()
-                        .addComponent(gumStateLabel)
-                        .addGap(0, 583, Short.MAX_VALUE))
-                    .addComponent(panelGumStateList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        gumStatePanelLayout.setVerticalGroup(
-            gumStatePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(gumStatePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(gumStateLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelGumStateList, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(toothStatePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(gumStatePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(toothStatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(gumStatePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(384, Short.MAX_VALUE))
-        );
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setLayout(new java.awt.BorderLayout());
     }// </editor-fold>//GEN-END:initComponents
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel gumStateLabel;
-    private javax.swing.JPanel gumStatePanel;
-    private javax.swing.JTextArea infoArea;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JPanel panelGumStateList;
-    private javax.swing.JPanel panelToothStateList;
-    private javax.swing.JLabel toothStateLabel;
-    private javax.swing.JPanel toothStatePanel;
     // End of variables declaration//GEN-END:variables
 }

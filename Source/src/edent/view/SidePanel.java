@@ -19,7 +19,9 @@ import javax.swing.JButton;
 public class SidePanel extends javax.swing.JPanel {
     private static final String SETTINGS_LABEL = "|  Nastavení  |";
     private static final String EXIT_LABEL = "|  Ukončit  |";
-    private JButton[] buttons = new JButton[3];
+    private static final String NEWAPPT_LABEL = "Nová schůzka > ";
+    private static final String QUICK_LABEL = "Zpět > ";
+    private JButton[] buttons = new JButton[4];
 
     /**
      * Creates new form SidePanel
@@ -30,15 +32,21 @@ public class SidePanel extends javax.swing.JPanel {
         
         buttons[0] = this.settingsButton;
         buttons[1] = this.exitButton;
-        buttons[2] = this.jButton1;
+        buttons[2] = this.quickButton;
+        buttons[3] = this.apptButton;
+        
         this.settingsButton.setText(SETTINGS_LABEL);
         this.exitButton.setText(EXIT_LABEL);
     }
     
-    private void deselectButtons(){
+    public void deselectButtons(){
         for(JButton b : buttons){
             b.setSelected(false);
         }
+    }
+    
+    public void setSettingsSelected(){
+        this.settingsButton.setSelected(true);
     }
 
     /**
@@ -56,10 +64,12 @@ public class SidePanel extends javax.swing.JPanel {
         dateLabel = new Clock("d.M.");
         dayLabel = new Clock("EEEEEEEEEEE");
         exitButton = new EdentButton("|  exit  |", new Dimension(this.getWidth()/2,20), 12, EdentButtonColor.white, BorderLayout.EAST);
-        apptsPanel = new javax.swing.JPanel();
         loginPanel = new javax.swing.JPanel();
         buttonsPanel = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        quickButton = new EdentButton(QUICK_LABEL, new Dimension(this.getWidth(),45), 24, EdentButtonColor.blue, BorderLayout.EAST);
+        apptButton = new EdentButton(NEWAPPT_LABEL, new Dimension(this.getWidth(),45), 24, EdentButtonColor.green, BorderLayout.EAST);
+        scrollAppts = new javax.swing.JScrollPane();
+        panelAppts = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setAutoscrolls(true);
@@ -125,23 +135,6 @@ public class SidePanel extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
 
-        apptsPanel.setBackground(new java.awt.Color(255, 255, 255));
-        apptsPanel.setAlignmentX(0.0F);
-        apptsPanel.setAlignmentY(0.0F);
-        apptsPanel.setAutoscrolls(true);
-        apptsPanel.setPreferredSize(new java.awt.Dimension(200, 100));
-
-        javax.swing.GroupLayout apptsPanelLayout = new javax.swing.GroupLayout(apptsPanel);
-        apptsPanel.setLayout(apptsPanelLayout);
-        apptsPanelLayout.setHorizontalGroup(
-            apptsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        apptsPanelLayout.setVerticalGroup(
-            apptsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 170, Short.MAX_VALUE)
-        );
-
         loginPanel.setBackground(new java.awt.Color(255, 255, 255));
         loginPanel.setMaximumSize(new java.awt.Dimension(140, 200));
         loginPanel.setMinimumSize(new java.awt.Dimension(140, 200));
@@ -161,10 +154,15 @@ public class SidePanel extends javax.swing.JPanel {
 
         buttonsPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        quickButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                quickButtonActionPerformed(evt);
+            }
+        });
+
+        apptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                apptButtonActionPerformed(evt);
             }
         });
 
@@ -172,18 +170,39 @@ public class SidePanel extends javax.swing.JPanel {
         buttonsPanel.setLayout(buttonsPanelLayout);
         buttonsPanelLayout.setHorizontalGroup(
             buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(buttonsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(quickButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(apptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         buttonsPanelLayout.setVerticalGroup(
             buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(buttonsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addContainerGap(86, Short.MAX_VALUE))
+                .addGap(0, 0, 0)
+                .addComponent(quickButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(apptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
+
+        scrollAppts.setBorder(null);
+        scrollAppts.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollAppts.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+
+        panelAppts.setAlignmentX(0.0F);
+        panelAppts.setAlignmentY(0.0F);
+        panelAppts.setAutoscrolls(true);
+        panelAppts.setPreferredSize(new java.awt.Dimension(200, 100));
+
+        javax.swing.GroupLayout panelApptsLayout = new javax.swing.GroupLayout(panelAppts);
+        panelAppts.setLayout(panelApptsLayout);
+        panelApptsLayout.setHorizontalGroup(
+            panelApptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 283, Short.MAX_VALUE)
+        );
+        panelApptsLayout.setVerticalGroup(
+            panelApptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 200, Short.MAX_VALUE)
+        );
+
+        scrollAppts.setViewportView(panelAppts);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -192,14 +211,14 @@ public class SidePanel extends javax.swing.JPanel {
             .addComponent(clockPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
             .addComponent(loginPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
             .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(apptsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(scrollAppts, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(clockPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(apptsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                .addComponent(scrollAppts, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -213,26 +232,34 @@ public class SidePanel extends javax.swing.JPanel {
         this.settingsButton.setSelected(true);
     }//GEN-LAST:event_settingsButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ViewController.showPrevious();
+    private void quickButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quickButtonActionPerformed
         deselectButtons();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        ViewController.showPrevious();
+    }//GEN-LAST:event_quickButtonActionPerformed
 
     private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
         deselectButtons();
         ViewController.shutDown();
     }//GEN-LAST:event_exitButtonActionPerformed
 
+    private void apptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_apptButtonActionPerformed
+        ViewController.showCreateAppt();
+        deselectButtons();
+        this.apptButton.setSelected(true);
+    }//GEN-LAST:event_apptButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel apptsPanel;
+    private javax.swing.JButton apptButton;
     private javax.swing.JPanel buttonsPanel;
     private javax.swing.JLabel clockLabel;
     private javax.swing.JPanel clockPanel;
     private javax.swing.JLabel dateLabel;
     private javax.swing.JLabel dayLabel;
     private javax.swing.JButton exitButton;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel loginPanel;
+    private javax.swing.JPanel panelAppts;
+    private javax.swing.JButton quickButton;
+    private javax.swing.JScrollPane scrollAppts;
     private javax.swing.JButton settingsButton;
     // End of variables declaration//GEN-END:variables
 }

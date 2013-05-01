@@ -4,6 +4,7 @@
  */
 package edent.model;
 
+import edent.model.utils.Diagnosable;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -11,17 +11,17 @@
         <property name="sname" type="string">
             <column name="sname" not-null="false"/>
         </property>
-        <property name="birthNum" type="string">
-            <column name="birthNum" not-null="true"/>
+        <property name="birthnum" type="string">
+            <column name="birthnum" not-null="true"/>
         </property>
-        <property name="birthDate" type="java.lang.Long">
-            <column name="birthDate" not-null="false"/>
+        <property name="birthdate" type="java.lang.Long">
+            <column name="birthdate" not-null="false"/>
         </property>
         <property name="created" type="java.lang.Long">
             <column name="created" not-null="false"/>
         </property>
         <one-to-one name="mouth" class="edent.model.Mouth" cascade="save-update"/>
-        <set name="doctors" table="user_patient" cascade="all" inverse="true" lazy="true" fetch="select">
+        <set name="doctors" table="user_patient" cascade="none" inverse="true" lazy="true" fetch="select">
             <key column="patient_id" />
             <many-to-many column="user_id"  class="edent.model.User" />
         </set>

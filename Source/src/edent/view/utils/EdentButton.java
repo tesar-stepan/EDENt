@@ -71,6 +71,15 @@ public class EdentButton extends JButton {
                 this.notSelectedLabelColor = Color.WHITE;
                 this.pressedLabelColor = Color.WHITE;
                 break;
+            case green:
+                this.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edent/view/utils/green.png")));
+                this.setPressedIcon(new javax.swing.ImageIcon(getClass().getResource("/edent/view/utils/darkgreen.png")));
+                this.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/edent/view/utils/darkgreen.png")));
+                this.selectedLabelColor = Color.WHITE;
+                this.notSelectedLabelColor = Color.WHITE;
+                this.pressedLabelColor = Color.WHITE;
+                break;
+                
         }
         
         this.setLayout(new BorderLayout());

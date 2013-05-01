@@ -20,13 +20,16 @@
         <property name="titlePos" type="string">
             <column name="titlePos" not-null="false"/>
         </property>
+        <property name="pass" type="string">
+            <column name="pass" not-null="false"/>
+        </property>
         <property name="type" length="30"> 
             <type name="org.hibernate.type.EnumType"> 
                 <param name="enumClass">edent.model.UserType</param> 
                 <param name="type">12</param> 
             </type> 
         </property> 
-        <set name="patients" table="user_patient" cascade="all" inverse="false" lazy="true" fetch="select">
+        <set name="patients" table="user_patient" cascade="none" inverse="false" lazy="true" fetch="select">
             <key column="user_id" />
             <many-to-many column="patient_id"  class="edent.model.Patient" />
         </set>

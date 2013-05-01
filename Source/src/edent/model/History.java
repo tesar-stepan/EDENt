@@ -4,6 +4,7 @@
  */
 package edent.model;
 
+import edent.model.utils.Diagnosable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +20,13 @@ public class History implements java.io.Serializable{
     protected History(){
     }
 
-    protected History(Diagnosable owner) {
+    public History(Diagnosable owner) {
         this.owner = owner;
         this.diagnoses = new ArrayList<>();
     }
     
     public void addDiagnosis(Diagnosis diagnosis, long date){
-        diagnoses.add(diagnosis); //TODO add to correct position;
+        diagnoses.add(diagnosis);
     }
     
     public boolean deleteDiagnosis(Diagnosis d){
@@ -48,7 +49,7 @@ public class History implements java.io.Serializable{
     }
 
     public Gum getGum() {
-        System.out.println();
+//        System.out.println();
         if(owner.getClass().equals(Gum.class)){
             return (Gum) owner;
         }
@@ -101,6 +102,11 @@ public class History implements java.io.Serializable{
 
     private void setOwner(Diagnosable owner) {
         this.owner = owner;
+    }
+    
+    @Override
+    public String toString(){
+        return getClass()+":"+this.getId();
     }
     
 }

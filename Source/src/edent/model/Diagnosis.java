@@ -91,4 +91,10 @@ public class Diagnosis implements java.io.Serializable {
     private void setOrigAppointment(Appointment origAppointment) {
         this.origAppointment = origAppointment;
     }
+    
+    @Override
+    public String toString(){
+        return getClass()+":"+this.getId();
+    }
+    
 }

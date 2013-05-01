@@ -2,9 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package edent.model;
+package edent.model.utils;
 
 import edent.controller.HibernateController;
+import edent.model.Diagnosis;
+import edent.model.History;
+import edent.model.Patient;
 
 /**
  *
@@ -25,7 +28,7 @@ public abstract class Diagnosable implements java.io.Serializable{
         History h = new History(this);
         HibernateController.create(h);
         this.history = h;
-        System.out.println("diagnosable construct finished");
+//        System.out.println("diagnosable construct finished");
     }
     
     /**
@@ -53,11 +56,11 @@ public abstract class Diagnosable implements java.io.Serializable{
      * @return the whole dianostic history of this diagnosable object.
      */
 
-    private long getId() {
+    public long getId() {
         return id;
     }
 
-    private void setId(long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -67,6 +70,11 @@ public abstract class Diagnosable implements java.io.Serializable{
 
     private void setHistory(History history) {
         this.history = history;
+    }
+    
+    @Override
+    public String toString(){
+        return getClass()+":"+this.getId();
     }
     
 }
