@@ -6,11 +6,13 @@ package edent.view;
 
 import edent.controller.ViewController;
 import edent.model.Appointment;
+import edent.model.User;
 import edent.view.utils.ApptSideLine;
 import edent.view.utils.Clock;
 import edent.view.utils.EdentButton;
 import edent.view.utils.EdentButtonColor;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.List;
@@ -22,13 +24,22 @@ import javax.swing.JPanel;
  *
  * @author Stepan Tesar
  */
-public class SidePanel extends javax.swing.JPanel {
+public final class SidePanel extends javax.swing.JPanel {
+
     private static final String SETTINGS_LABEL = "|  Nastavení  |";
     private static final String EXIT_LABEL = "|  Ukončit  |";
     private static final String NEWAPPT_LABEL = "Nová schůzka > ";
     private static final String QUICK_LABEL = "Zpět > ";
+    private static final String LOGIN_LABEL = "Přihlásit se";
+    private static final String LOGOUT_LABEL = "Odhlásit";
+    private static final String UNAME_TEXT = "Váš login (user/heslo)";
+    private static final String PASS_TEXT = "heslo";
+    private static final String DR_LABEL = "Doktor";
+    private static final String NR_LABEL = "Sestra";
+    
     private static final int LINE_HEIGHT = 50;
     private JButton[] buttons = new JButton[4];
+    private boolean logged = false;
 
     /**
      * Creates new form SidePanel
@@ -37,62 +48,95 @@ public class SidePanel extends javax.swing.JPanel {
         initComponents();
         this.setBackground(MainFrame.BACKGROUND);
         this.panelAppts.setBackground(MainFrame.BACKGROUND);
-        
+
         buttons[0] = this.settingsButton;
         buttons[1] = this.exitButton;
         buttons[2] = this.quickButton;
         buttons[3] = this.apptButton;
-        
+
         this.settingsButton.setText(SETTINGS_LABEL);
         this.exitButton.setText(EXIT_LABEL);
-        
+
         this.quickButton.setVisible(false); //TODO implement quicksessions.
-        
+
+        this.setUnlogged();
         this.setVisible(true);
-        this.addAppts();
         this.revalidate();
     }
-    
-    private void addAppts(){
+
+    private void addAppts() {
         panelAppts = new JPanel();
         scrollAppts.setViewportView(panelAppts);
         panelAppts.setLayout(new BoxLayout(panelAppts, BoxLayout.Y_AXIS));
         panelAppts.setBackground(MainFrame.BACKGROUND);
-        
+
         List<Appointment> appts = ViewController.modelFacade().getAppointments();
-        
-        Dimension dim = new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().width/MainFrame.PANEL_WIDTH_FRACTION)-30, LINE_HEIGHT);
-        
+
+        Dimension dim = new Dimension((int) (Toolkit.getDefaultToolkit().getScreenSize().width / MainFrame.PANEL_WIDTH_FRACTION) - 30, LINE_HEIGHT);
+
         for (Appointment ap : appts) {
-            String name = ap.getPatient().getSname()+" "+ap.getPatient().getFname();
+            String name = ap.getPatient().getSname() + " " + ap.getPatient().getFname();
             ApptSideLine line = new ApptSideLine(name, ap.getNote(), ap.getDate(), ap.getId());
-            
+
             line.setPreferredSize(dim);
             line.setSize(dim);
             this.panelAppts.add(line);
         }
-        
-        this.panelAppts.setPreferredSize(new Dimension(dim.width, appts.size()*LINE_HEIGHT));
+
+        this.panelAppts.setPreferredSize(new Dimension(dim.width, appts.size() * LINE_HEIGHT));
         this.panelAppts.revalidate();
         this.scrollAppts.validate();
     }
-    
-    public void refreshAppts(){
+
+    public void setUnlogged() {
+        this.logged = false;
+        for (JButton b : buttons) {
+            b.setEnabled(false);
+        }
+        this.exitButton.setEnabled(true);
+        
+        this.panelAppts.removeAll();
+        this.panelAppts.validate();
+        this.panelAppts.repaint();
+        
+        this.buttonLogin.setText(LOGIN_LABEL);
+        this.textUname.setText(UNAME_TEXT);
+        this.textPass.setVisible(true);
+        this.textPass.setText(PASS_TEXT);
+    }
+
+    public void setLogged() {
+        this.logged = true;
+        User u = ViewController.getLogged();
+        String name = u.getTitlePre() + " " + u.getFname() + " " + u.getSname() + " " + u.getTitlePos();
+        
+        for (JButton b : buttons) {
+            b.setEnabled(true);
+        }
+        this.exitButton.setEnabled(true);
+        
+        this.refreshAppts();
+        this.buttonLogin.setText(LOGOUT_LABEL);
+        this.textUname.setText(name);
+        this.textPass.setVisible(false);
+    }
+
+    public void refreshAppts() {
         this.panelAppts.removeAll();
         this.addAppts();
     }
-    
-    public void deselectButtons(){
-        for(JButton b : buttons){
+
+    public void deselectButtons() {
+        for (JButton b : buttons) {
             b.setSelected(false);
         }
     }
-    
-    public void setSettingsSelected(){
+
+    public void setSettingsSelected() {
         this.settingsButton.setSelected(true);
     }
-    
-    public void setNewApptSelected(){
+
+    public void setNewApptSelected() {
         this.apptButton.setSelected(true);
     }
 
@@ -112,11 +156,15 @@ public class SidePanel extends javax.swing.JPanel {
         dayLabel = new Clock("EEEEEEEEEEE");
         exitButton = new EdentButton("|  exit  |", new Dimension(this.getWidth()/2,20), 12, EdentButtonColor.white, BorderLayout.EAST);
         loginPanel = new javax.swing.JPanel();
+        panelImg = new javax.swing.JPanel();
+        textUname = new javax.swing.JTextField();
+        buttonLogin = new EdentButton(LOGIN_LABEL, new Dimension(127,23), 14, EdentButtonColor.blue, BorderLayout.CENTER);
+        textPass = new javax.swing.JPasswordField();
         buttonsPanel = new javax.swing.JPanel();
         quickButton = new EdentButton(QUICK_LABEL, new Dimension(this.getWidth(),45), 24, EdentButtonColor.blue, BorderLayout.EAST);
-        apptButton = new EdentButton(NEWAPPT_LABEL, new Dimension(this.getWidth(),45), 24, EdentButtonColor.green, BorderLayout.EAST);
         scrollAppts = new javax.swing.JScrollPane();
         panelAppts = new javax.swing.JPanel();
+        apptButton = new EdentButton(NEWAPPT_LABEL, new Dimension(this.getWidth(),45), 24, EdentButtonColor.blue, BorderLayout.EAST);
 
         setBackground(new java.awt.Color(255, 255, 255));
         setAutoscrolls(true);
@@ -153,7 +201,7 @@ public class SidePanel extends javax.swing.JPanel {
         clockPanelLayout.setHorizontalGroup(
             clockPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(clockPanelLayout.createSequentialGroup()
-                .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(settingsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(clockPanelLayout.createSequentialGroup()
@@ -188,15 +236,68 @@ public class SidePanel extends javax.swing.JPanel {
         loginPanel.setName(""); // NOI18N
         loginPanel.setPreferredSize(new java.awt.Dimension(140, 200));
 
+        javax.swing.GroupLayout panelImgLayout = new javax.swing.GroupLayout(panelImg);
+        panelImg.setLayout(panelImgLayout);
+        panelImgLayout.setHorizontalGroup(
+            panelImgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 89, Short.MAX_VALUE)
+        );
+        panelImgLayout.setVerticalGroup(
+            panelImgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 118, Short.MAX_VALUE)
+        );
+
+        textUname.setBackground(new java.awt.Color(240, 240, 240));
+        textUname.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        textUname.setText("uziv jmeno");
+        textUname.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0));
+        textUname.setMaximumSize(new java.awt.Dimension(117, 32));
+        textUname.setMinimumSize(new java.awt.Dimension(117, 32));
+        textUname.setPreferredSize(new java.awt.Dimension(117, 32));
+
+        buttonLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonLoginActionPerformed(evt);
+            }
+        });
+
+        textPass.setBackground(new java.awt.Color(240, 240, 240));
+        textPass.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        textPass.setText("hesl");
+        textPass.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0));
+        textPass.setMinimumSize(new java.awt.Dimension(127, 32));
+        textPass.setPreferredSize(new java.awt.Dimension(127, 32));
+
         javax.swing.GroupLayout loginPanelLayout = new javax.swing.GroupLayout(loginPanel);
         loginPanel.setLayout(loginPanelLayout);
         loginPanelLayout.setHorizontalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(loginPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(textPass, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                            .addComponent(buttonLogin, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 17, Short.MAX_VALUE))
+                    .addComponent(textUname, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         loginPanelLayout.setVerticalGroup(
             loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
+            .addGroup(loginPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(loginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(loginPanelLayout.createSequentialGroup()
+                        .addComponent(textUname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(buttonLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         buttonsPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -207,26 +308,17 @@ public class SidePanel extends javax.swing.JPanel {
             }
         });
 
-        apptButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                apptButtonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout buttonsPanelLayout = new javax.swing.GroupLayout(buttonsPanel);
         buttonsPanel.setLayout(buttonsPanelLayout);
         buttonsPanelLayout.setHorizontalGroup(
             buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(quickButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(apptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         buttonsPanelLayout.setVerticalGroup(
             buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(buttonsPanelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(quickButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(apptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, buttonsPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(quickButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         scrollAppts.setBorder(null);
@@ -240,6 +332,12 @@ public class SidePanel extends javax.swing.JPanel {
         panelAppts.setLayout(new javax.swing.BoxLayout(panelAppts, javax.swing.BoxLayout.LINE_AXIS));
         scrollAppts.setViewportView(panelAppts);
 
+        apptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                apptButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -248,17 +346,20 @@ public class SidePanel extends javax.swing.JPanel {
             .addComponent(loginPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
             .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(scrollAppts, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(apptButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(clockPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(scrollAppts, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                .addComponent(scrollAppts, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(apptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(loginPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -284,8 +385,36 @@ public class SidePanel extends javax.swing.JPanel {
         this.apptButton.setSelected(true);
     }//GEN-LAST:event_apptButtonActionPerformed
 
+    private void buttonLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoginActionPerformed
+        this.textUname.setBackground(panelImg.getBackground());
+        this.textPass.setBackground(panelImg.getBackground());
+        if(this.logged){
+            ViewController.setLogged(null);
+            ViewController.showUnlogged();
+            this.setUnlogged();
+        }else{
+            String uname = this.textUname.getText();
+            String pass = new String(this.textPass.getPassword());
+            User u = ViewController.modelFacade().getUser(uname);
+            if(u==null){
+                this.textUname.setBackground(Color.red);
+            }else{
+                String uPass = u.getPass();
+                String checkPass = User.SHAsum(pass.getBytes());
+//                System.out.println(uPass+" : "+checkPass);
+                if(uPass.equals(checkPass)){
+                    ViewController.setLogged(u);
+                    this.setLogged();
+                }else{
+                    this.textPass.setBackground(Color.red);
+                }
+            }
+        }
+    }//GEN-LAST:event_buttonLoginActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton apptButton;
+    private javax.swing.JButton buttonLogin;
     private javax.swing.JPanel buttonsPanel;
     private javax.swing.JLabel clockLabel;
     private javax.swing.JPanel clockPanel;
@@ -294,8 +423,11 @@ public class SidePanel extends javax.swing.JPanel {
     private javax.swing.JButton exitButton;
     private javax.swing.JPanel loginPanel;
     private javax.swing.JPanel panelAppts;
+    private javax.swing.JPanel panelImg;
     private javax.swing.JButton quickButton;
     private javax.swing.JScrollPane scrollAppts;
     private javax.swing.JButton settingsButton;
+    private javax.swing.JPasswordField textPass;
+    private javax.swing.JTextField textUname;
     // End of variables declaration//GEN-END:variables
 }

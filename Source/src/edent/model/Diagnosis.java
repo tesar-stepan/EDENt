@@ -127,7 +127,7 @@ public class Diagnosis implements java.io.Serializable, Comparable {
     @Override
     public String toString(){
         String time = TimeFormatter.getAppointmentDate(date);
-        String dr = this.doctor.getSname();
+        String dr = this.doctor!=null?this.doctor.getSname():"";
         String by = this.creator!=null?", zapsal/a "+this.creator.getSname():"";
         String txt = this.text!=null?this.text:"";
         

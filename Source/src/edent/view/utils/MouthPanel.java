@@ -22,7 +22,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -48,6 +47,7 @@ public class MouthPanel extends javax.swing.JPanel {
     private static final String BUTTON_ADD_LABEL = "Přidat";
     private static final Dimension BUTTON_ADD_SIZE = new Dimension(61, 29);
     private static final int BUTTON_ADD_FONT_SIZE = 14;
+    private static final int MARKS_SIZE = 16;
     
     private Appointment appt;
     private Diagnosable selected;
@@ -205,7 +205,6 @@ public class MouthPanel extends javax.swing.JPanel {
         String pos = t.getPosition() + " " + (t.isLeftSide() ? LEFT : RIGHT) + " " + (t.isTopFloor() ? TOP : BOT);
         this.setInfoCommon(pos, t);
 
-        System.out.println(t.isBraced());
         this.boxBraces.setEnabled(true);
         this.boxBraces.setSelected(t.isBraced());
         this.boxMilk.setEnabled(true);

@@ -5,6 +5,7 @@
 package edent.view.utils;
 
 import edent.controller.ViewController;
+import edent.model.User;
 import java.awt.Color;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -19,6 +20,7 @@ import javax.swing.JTextField;
  */
 public class TextFieldFocusListener implements FocusListener {
 
+    private static final String UNAME_USED = "login je zabraný";
     private final JLabel IMG_OK = new JLabel(new ImageIcon(getClass().getResource("/edent/view/utils/ok.png")));
     private JPanel panelInfo;
     private JTextField textField;
@@ -92,6 +94,20 @@ public class TextFieldFocusListener implements FocusListener {
         }
 
         if (o != null) {
+            if(this.cls.equals("User")&&this.valName.equals("uname")){
+                if(!User.uNameCheck(value)){
+                    panelInfo.removeAll();
+                    panelInfo.repaint();
+                    this.textField.setText(UNAME_USED);
+                    this.textField.setBackground(Color.red);
+                    return;
+                }else{
+                    panelInfo.add(IMG_OK);
+                    panelInfo.validate();
+                    panelInfo.repaint();
+                    this.textField.setBackground(origBg);
+                }
+            }
             o.setStringValue(this.valName, value);
             if(this.cls.equals("Appointment")){
                 ViewController.refreshAppts();
@@ -129,12 +145,12 @@ public class TextFieldFocusListener implements FocusListener {
                 //System.out.println("editing - notrequired or not epmty");
                 if (!origText.equals(text)&&this.objectId!=-1) {
                     //System.out.println("editing - new valid value, updated");
-                    this.updateObject();
+                    
                     //panelInfo.setBackground(MainFrame.BACKGROUND);
                     panelInfo.add(IMG_OK);
                     panelInfo.validate();
                     panelInfo.repaint();
-
+                    this.updateObject();
                     origText = text;
                 } else {
                     //System.out.println(origText+" = "+text);

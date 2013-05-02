@@ -17,7 +17,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
-import java.security.NoSuchAlgorithmException;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -26,8 +25,8 @@ import javax.swing.JLabel;
  * @author Stepan Tesar
  */
 public final class UserForm extends EdentForm {
-
     private final JLabel IMG_OK = new JLabel(new ImageIcon(getClass().getResource("/edent/view/utils/ok.png")));
+    private static final String UNAME_USED = "login je zabraný";
     private static final Dimension SQUARE = new Dimension(25, 25);
     private static final Dimension BUTTON_SIZE = new Dimension(100, 40);
     private static final String BUTTON_DELETE_LABEL = "Smazat";
@@ -82,6 +81,9 @@ public final class UserForm extends EdentForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (editing) {
+                    if(userId == ViewController.getLogged().getId()){
+                        return;
+                    }
                     if (ViewController.showConfirmDialog(DELETE_CONFIRM_TEXT, DELETE_CONFIRM_TITLE)) {
                         ViewController.modelFacade().deleteUser(userId);
                         ViewController.showPrevious();
@@ -93,6 +95,20 @@ public final class UserForm extends EdentForm {
                     String titpre = textTitPre.getText();
                     String titpos = textTitPos.getText();
                     String pass = new String(textPass.getPassword());
+
+                    if (!User.uNameCheck(uname)) {
+                        panelInfo.removeAll();
+                        panelInfo.repaint();
+                        textUName.setText(UNAME_USED);
+                        textUName.setBackground(Color.red);
+                        return;
+                    } 
+//                    else {
+//                        panelInfoLogin.add(IMG_OK);
+//                        panelInfo.validate();
+//                        panelInfo.repaint();
+//                        textUName.setBackground(panelFoto.getBackground());
+//                    }
 
                     UserType type = getType();
                     //String icon = picChooser.getSelectedFile().getAbsolutePath(); //TODO file checking and copying
@@ -109,14 +125,11 @@ public final class UserForm extends EdentForm {
 
     private boolean passCheck(String pass) {
         User u = ViewController.modelFacade().getUser(userId);
-        try {
-            String uPass = u.getPass();
-            String checkPass = User.SHAsum(pass.getBytes());
+
+        String uPass = u.getPass();
+        String checkPass = User.SHAsum(pass.getBytes());
 //            System.out.println(checkPass + " : " + uPass);
-            return uPass.equals(checkPass);
-        } catch (NoSuchAlgorithmException | NullPointerException ex) {
-            return false;
-        }
+        return uPass.equals(checkPass);
     }
 
     private UserType getType() {
@@ -242,6 +255,8 @@ public final class UserForm extends EdentForm {
         textTitPos.setText(TITPOS_TEXT);
         textUName.setText(UNAME_TEXT);
 
+        textUName.setBackground(panelFoto.getBackground());
+        
         textPass.setText(PASS_TEXT);
         textPass2.setText(PASS_TEXT);
         textPass2.setVisible(false);
@@ -252,7 +267,7 @@ public final class UserForm extends EdentForm {
         textPass.setText(PASS_TEXT);
         radioDr.setSelected(true);
         radioNr.setSelected(false);
-        
+
         this.panelInfo.removeAll();
         this.panelInfoPass.removeAll();
         this.panelInfoLogin.removeAll();
@@ -569,11 +584,13 @@ public final class UserForm extends EdentForm {
         } else {
             this.textPass.setBackground(textPass2.getBackground());
             User u = ViewController.modelFacade().getUser(userId);
-            if (u.changePass(new String(this.textPass2.getPassword()))) {
-                this.panelInfoPass.add(IMG_OK);
-                this.panelInfoPass.validate();
-                this.panelInfoPass.repaint();
-            }
+//            if (
+            u.changePass(new String(this.textPass2.getPassword()));
+//                    ) {
+            this.panelInfoPass.add(IMG_OK);
+            this.panelInfoPass.validate();
+            this.panelInfoPass.repaint();
+//            }
             this.textPass.setText(null);
             this.textPass2.setText(null);
         }

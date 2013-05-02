@@ -11,6 +11,9 @@
         <property name="note" type="java.lang.String">
             <column name="note" not-null="false"/>
         </property>
+        <property name="finished" type="boolean">
+            <column name="finished" not-null="true"/>
+        </property>
         <many-to-one name="creator" class="edent.model.User">
             <column name="creator" not-null="false"/>
         </many-to-one>

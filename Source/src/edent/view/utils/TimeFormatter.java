@@ -16,7 +16,7 @@ public class TimeFormatter {
 
     public static final String BDATE_PATTERN = "d.M.yyyy";
     public static final String APPT_PATTERN = "d.M.yyyy HH:mm";
-    public static final String APPT_DATE_PATTERN = "d.M.yyyy";
+    public static final String APPT_DATE_PATTERN = "d.M.yy";
     public static final String APPT_TIME_PATTERN = "HH:mm";
 
     /**

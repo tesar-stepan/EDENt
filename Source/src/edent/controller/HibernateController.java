@@ -35,7 +35,7 @@ public class HibernateController {
             tx.commit();
             System.out.println("HBTC: creating "+object.toString()+" (new object)");
         } catch (Exception ex) {
-            ex.printStackTrace();
+//            ex.printStackTrace();
             if (tx != null && tx.isActive()) {
                 tx.rollback();
             }
@@ -123,6 +123,9 @@ public class HibernateController {
                     case "double":
                         query.setDouble(parameterNames[i], (Double) parameterValues[i]);
                         break;
+                    case "boolean":
+                        query.setBoolean(parameterNames[i], (Boolean) parameterValues[i]);
+                        break;
                 }
             }
 
@@ -185,6 +188,18 @@ public class HibernateController {
      */
     public static List findAll(String className, String orderBy){
         List res = executeQuery("from " + className + " x order by "+orderBy, new String[0], new String[0], new Object[0]);
+        if (res == null || res.isEmpty()) {
+            return null;
+        }
+        return res;
+    }
+    
+    public static List findAllByBoolVal(String className, String orderBy, String column, Boolean value){
+        String[] paramNames = {"name"};
+        String[] paramTypes = {"Boolean"};
+        Object[] paramValues = {value};
+        String idParamName = column;
+        List res = executeQuery("from " + className + " x where x." + idParamName + " = :name order by "+orderBy, paramNames, paramTypes, paramValues);
         if (res == null || res.isEmpty()) {
             return null;
         }

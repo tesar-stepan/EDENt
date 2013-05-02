@@ -66,22 +66,6 @@ public class DBDAO implements Serializable {
         return HibernateController.findById(className, "id", id);
     }
 
-//    /**
-//     * Metoda navraci odpovidajici instanci potomka tridy DBDAO. Vraci pouze
-//     * nesmazane zaznamy.
-//     *
-//     * @param className nazev tridy, pro kterou hledame zaznam
-//     * @param columnId oznacuje nazev sloupce, kde je uvedeno ID
-//     * @param id id hodnota, podle ktere se bude vyhledavat
-//     * @param columnDel nazev sloupce, kde je uvedena hodnota, podle ktere se
-//     * rozhoduje zda je dany zaznam smazan ci nikoliv
-//     * @param del ID hodnota, ktera oznacuje nesmazany zaznam
-//     * @return odpovidajici instance potomka tridy DBDAO
-//     */
-//    public static Object findByIdNotDeleted(String className, String columnId, Integer id, String columnDel, Integer del) {
-//        return HibernateController.findByIdNotDeleted(className, columnId, id, columnDel, del);
-//    }
-
     /**
      * Vrati vsechny zaznamy pro danou tridu.
      *
@@ -103,38 +87,11 @@ public class DBDAO implements Serializable {
         List l = HibernateController.findAll(className, orderBy);
         return l;
     }
-
-//    /**
-//     * Metoda navraci seznam vsech databazovych zaznamu tridy "className", ktere
-//     * nejsou smazany (flag "isDeleted" je nastaven na 0).
-//     *
-//     * @param className nazev tridy
-//     * @param columnDeleted nazev sloupce, kde je uvedena hodnota, podle ktere
-//     * se rozhoduje zda je dany zaznam smazan ci nikoliv
-//     * @param del ID hodnota, ktera oznacuje nesmazany zaznam
-//     * @return list odpovodajicich instanci dane tridy
-//     */
-//    public static List findAllNotDeleted(String className, String columnDeleted, Integer del) {
-//        return HibernateController.findAllNotDeleted(className, columnDeleted, del);
-//    }
-//
-//    /**
-//     * Metoda najde zaznam, jenz odpovida specifikovanym parametrum. Vraci pouze
-//     * nesmazane zaznamy.
-//     *
-//     * @param className nazev tridy, jejiz zaznam hledame
-//     * @param columnName nazev promenne (sloupce v databazi) pro ktery hledame odpovidajici hodnotu
-//     * @param name hodnota, podle ktere se vyhledava odpovidajici zaznam
-//     * @param columnDel nazev sloupce, kde je uvedena hodnota, podle ktere se
-//     * rozhoduje zda je dany zaznam smazan ci nikoliv
-//     * @param del ID hodnota, ktera oznacuje nesmazany zaznam
-//     * @return instance daneho potomku tridy DBDAO
-//     */
-//    public static Object findByStringNameNotDeleted(String className, String columnName, String name, String columnDel, Integer del) {
-//        Object o = HibernateController.findByStringNameNotDeleted(className, columnName, name, columnDel, del);
-//        //System.out.println("in DBDAO: "+o);
-//        return o;
-//    }
+    
+    public static List findAll(String className, String orderBy, String where, boolean b) {
+        List l = HibernateController.findAllByBoolVal(className, orderBy, where, b);
+        return l;
+    }
 
     /**
      * Najde zaznam, jenz odpovida specifikovanym parametrum.

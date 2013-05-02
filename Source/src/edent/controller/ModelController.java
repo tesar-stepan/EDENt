@@ -43,6 +43,11 @@ public class ModelController {
         return list!=null?list:new ArrayList();
     }
     
+    private List getAllOf(String cls, String orderBy, String where, boolean val){
+        List list = DBDAO.findAll(cls, orderBy, where, val);
+        return list!=null?list:new ArrayList();
+    }
+    
     private void delete(String cls, long id){
         Object o = DBDAO.findById(cls, id);
         if(o!=null) {
@@ -56,6 +61,10 @@ public class ModelController {
     
     private Object getById(String cls, long id){
         return DBDAO.findById(cls, id);
+    }
+    
+    private Object getByString(String cls, String column, String value){
+        return DBDAO.findByStringName(cls, column, value);
     }
     
     /*****************************************
@@ -87,7 +96,7 @@ public class ModelController {
     }
     
     public List getAppointments(){
-        return this.getAllOf("Appointment","date");
+        return this.getAllOf("Appointment", "date", "finished", false);
     }
     
     public void deleteToothState(long id){
@@ -179,6 +188,10 @@ public class ModelController {
     
     public User getUser(long id){
         return (User) this.getById("User", id);
+    }
+    
+    public User getUser(String uname){
+        return (User) this.getByString("User", "uname", uname);
     }
     
     public Patient getPatient(long id){

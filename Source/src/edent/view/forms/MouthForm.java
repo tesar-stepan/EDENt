@@ -49,6 +49,7 @@ public class MouthForm extends EdentForm {
         String nrs = "";
 
         this.appt.changeServers(this.appt.getPatient().getDoctors());
+        this.appt.changeCreator(ViewController.getLogged());
 
         for (User u : this.appt.getServers()) {
             if (u.getType().equals(UserType.doctor)) {
@@ -75,6 +76,8 @@ public class MouthForm extends EdentForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ViewController.showUnlogged();
+                appt.changeFinished(true);
+                ViewController.refreshAppts();
             }
         });
         

@@ -4,6 +4,7 @@
  */
 package edent.controller;
 
+import edent.model.User;
 import edent.view.MainFrame;
 import javax.swing.JOptionPane;
 
@@ -12,9 +13,9 @@ import javax.swing.JOptionPane;
  * @author Stepan Tesar
  */
 public class ViewController {
-
     private static final MainFrame mainFrame = new MainFrame();
     private static ViewController instance = new ViewController();
+    private static User logged;
 
     private ViewController() {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -37,8 +38,17 @@ public class ViewController {
         return instance;
     }
 
+    public static User getLogged() {
+        return logged;
+    }
+
+    public static void setLogged(User logged) {
+        ViewController.logged = logged;
+    }
+
     public static void shutDown() {
-        mainFrame.dispose();//TODO ask user for confirmation
+        mainFrame.dispose(); //TODO ask user for confirmation
+        ModelController.shutDown();
         System.exit(0); //TODO inform other controllers first!
     }
 

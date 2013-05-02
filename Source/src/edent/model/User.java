@@ -5,6 +5,7 @@
 package edent.model;
 
 import edent.controller.HibernateController;
+import edent.controller.ViewController;
 import edent.view.utils.EdentInlineEditableObject;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -27,18 +28,18 @@ public class User implements java.io.Serializable, EdentInlineEditableObject {
     private UserType type;
     private Set<Patient> patients;
     private Set<Appointment> appointments;
-    
     /**
-     * Password hashed by SHA-1 algorhytm. 
+     * Password hashed by SHA-1 algorhytm.
      */
     private String pass;
     //img swill be loaded by the uname from a specific directory, no need to save in db or object, only serves for GUI
 
     public User() {
     }
-    
+
     /**
      * Creates new User entity.
+     *
      * @param fname first name
      * @param sname surname
      * @param uname user name, used for logging into system
@@ -59,19 +60,33 @@ public class User implements java.io.Serializable, EdentInlineEditableObject {
         this.hashNewPass(pass);
     }
 
-    private boolean hashNewPass(String newPass) {
-        try {
-            this.setPass(SHAsum(newPass.getBytes()));
-        } catch (NoSuchAlgorithmException ex) {
-            return false;
-        }
-//        System.out.println("new pass: "+newPass);
-        return true;
+    private void hashNewPass(String newPass) {
+        this.setPass(SHAsum(newPass.getBytes()));
     }
 
-    public static String SHAsum(byte[] convertme) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-1");
-        return byteArray2Hex(md.digest(convertme));
+    /**
+     * Creates a SHA-1 hash of given byte array.
+     * @param convertme bytes to be hashed.
+     * @return hashed string.
+     */
+    public static String SHAsum(byte[] convertme) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            return byteArray2Hex(md.digest(convertme));
+        } catch (NoSuchAlgorithmException ex) {
+            System.out.println("SHAsum ERROR");
+        }
+        return null;
+    }
+    
+    /**
+     * Checks whther the given user name is already in use.
+     * @param uname
+     * @return true when the username is free to use, false otherwise.
+     */
+    public static boolean uNameCheck(String uname){
+        User u = ViewController.modelFacade().getUser(uname);
+        return u==null;
     }
 
     private static String byteArray2Hex(final byte[] hash) {
@@ -81,8 +96,8 @@ public class User implements java.io.Serializable, EdentInlineEditableObject {
         }
         return formatter.toString();
     }
-    
-    private void update(){
+
+    private void update() {
         HibernateController.update(this);
     }
 
@@ -99,7 +114,7 @@ public class User implements java.io.Serializable, EdentInlineEditableObject {
     }
 
     public void addAppointment(Appointment ap) {
-        if(!this.appointments.contains(ap)){
+        if (!this.appointments.contains(ap)) {
             this.appointments.add(ap);
         }
         ap.addServer(this);
@@ -184,9 +199,9 @@ public class User implements java.io.Serializable, EdentInlineEditableObject {
     private void setAppointments(Set<Appointment> appointments) {
         this.appointments = appointments;
     }
-    
+
     /**
-     * 
+     *
      * @return a SHA1 sum of password set for this user.
      */
     public String getPass() {
@@ -224,21 +239,19 @@ public class User implements java.io.Serializable, EdentInlineEditableObject {
                 this.hashNewPass(value);
                 break;
             default:
-                System.err.println("Property "+name+" not found in class User. Tried to assign value: "+value);
+                System.err.println("Property " + name + " not found in class User. Tried to assign value: " + value);
                 break;
         }
         this.update();
     }
-    
-    public void changeType(UserType type){
+
+    public void changeType(UserType type) {
         this.type = type;
         this.update();
     }
-    
-    public boolean changePass(String pass){
-        boolean bl = this.hashNewPass(pass);
+
+    public void changePass(String pass) {
+        this.hashNewPass(pass);
         this.update();
-        return bl;
     }
-    
 }

@@ -11,7 +11,7 @@
         <property name="sname" type="string">
             <column name="sname" not-null="false"/>
         </property>
-        <property name="uname" type="string">
+        <property name="uname" type="string" unique="true">
             <column name="uname" not-null="true"/>
         </property>
         <property name="titlePre" type="string">

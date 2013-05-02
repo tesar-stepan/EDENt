@@ -25,8 +25,10 @@ public class Appointment implements java.io.Serializable, EdentInlineEditableObj
     private Set<User> servers;
     private Patient patient;
     private List<Diagnosis> diagnoses;
+    private boolean finished;
 
     public Appointment() {
+        
     }
 
     public Appointment(long date, String note, User creator, Patient patient) {
@@ -119,6 +121,14 @@ public class Appointment implements java.io.Serializable, EdentInlineEditableObj
     private void setServers(Set<User> servers) {
         this.servers = servers;
     }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    private void setFinished(boolean finished) {
+        this.finished = finished;
+    }
     
     @Override
     public String toString(){
@@ -127,6 +137,16 @@ public class Appointment implements java.io.Serializable, EdentInlineEditableObj
     
     public void changePatient(Patient p){
         this.setPatient(p);
+        update();
+    }
+    
+    public void changeFinished(boolean f){
+        this.setFinished(f);
+        update();
+    }
+    
+    public void changeCreator(User u){
+        this.setCreator(u);
         update();
     }
     

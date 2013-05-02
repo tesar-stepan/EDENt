@@ -8,6 +8,7 @@ import edent.model.Tooth;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -19,6 +20,7 @@ import javax.swing.border.EmptyBorder;
  */
 public class ToothPanel extends javax.swing.JPanel {
 
+    private static final Font MARK_FONT = new Font("Arial", 0, 18);
     private JLabel braceLabel;
     private JLabel milkLabel;
     private JLabel toothStateLabel;
@@ -65,14 +67,18 @@ public class ToothPanel extends javax.swing.JPanel {
         milkLabel = new JLabel(" ");
 
         braceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        braceLabel.setFont(MARK_FONT);
         braceLabel.setBorder(new EmptyBorder(2, 2, 2, 2));
         milkLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        milkLabel.setFont(MARK_FONT);
         milkLabel.setBorder(new EmptyBorder(2, 2, 2, 2));
 
         toothStateLabel = new JLabel(" ");
+        toothStateLabel.setFont(MARK_FONT);
         gumStateLabel = new JLabel(" ");
         toothStateLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         gumStateLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gumStateLabel.setFont(MARK_FONT);
         gumStateLabel.setOpaque(true);
         gumStateLabel.setBackground(new Color(255,204,204));
         img.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -170,7 +176,7 @@ public class ToothPanel extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelImg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+            .addComponent(panelImg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
