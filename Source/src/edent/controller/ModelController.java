@@ -103,6 +103,9 @@ public class ModelController {
     }
     
     public void deleteAppointment(long id){
+        Appointment appt = (Appointment) this.getById("Appointment", id);
+        appt.changeServers(null);
+        appt.changePatient(null);
         this.delete("Appointment", id);
     }
     
@@ -159,6 +162,11 @@ public class ModelController {
         Patient patient = this.getPatient(patientId);
         Appointment a = new Appointment(date, note, creator, patient);
         this.create(a);
+    }
+    
+    public void createDiagnosis(long date, User creator, User doctor, String text, History history, Appointment appt){
+        Diagnosis d = new Diagnosis(date, creator, doctor, text, history, appt);
+        this.create(d);
     }
     
     public ToothState getToothState(long id){

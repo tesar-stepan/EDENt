@@ -37,4 +37,10 @@ public class Gum extends Organ implements java.io.Serializable{
         this.state = state;
     }
     
+    public void changeState(GumState state) {
+        this.setState(state);
+        update();
+    }
+    
+    
 }

@@ -4,35 +4,59 @@
  */
 package edent.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import edent.controller.HibernateController;
+import edent.view.utils.TimeFormatter;
 
 /**
  *
  * @author Stepan Tesar
  */
-public class Diagnosis implements java.io.Serializable {
+public class Diagnosis implements java.io.Serializable, Comparable {
 
     private long id;
     private long date;
     private User creator;
     private User doctor;
     private String text;
-    private Set<History> inHistories;
+//    private Set<History> inHistories;
+    private History history;
     private Appointment origAppointment = null;
 
-    public Diagnosis(long date, User creator, User doctor, String text, Set<History> inHistories, Appointment origin) {
+    public Diagnosis() {
+        
+    }
+
+    public Diagnosis(long date, User creator, User doctor, String text, History history, Appointment origin) {
         this.date = date;
         this.creator = creator;
         this.doctor = doctor;
         this.text = text;
-        if (inHistories != null) {
-            this.inHistories = inHistories;
-        } else {
-            this.inHistories = new HashSet<>();
+        HibernateController.create(this);
+        
+//        if (inHistories != null) {
+//            this.inHistories = inHistories;
+//            for(History h : inHistories){
+//                h.addDiagnosis(this);
+//            }
+//        } else {
+//            this.inHistories = new HashSet<>();
+//        }
+        this.history = history;
+        if(history!=null){
+            history.addDiagnosis(this);
         }
+        
         this.origAppointment = origin;
-
+        if(origin!=null){
+            origin.addDiagnosis(this);
+        }
+        this.update();
+        
+//        this.update();
+    }
+    
+    private void update(){
+        HibernateController.update(this);
     }
 
     //getters and setters
@@ -76,13 +100,21 @@ public class Diagnosis implements java.io.Serializable {
         this.text = text;
     }
 
-    public Set<History> getInHistories() {
-        return inHistories;
+    public History getHistory() {
+        return history;
     }
 
-    private void setInHistories(Set<History> inHistories) {
-        this.inHistories = inHistories;
+    private void setHistory(History history) {
+        this.history = history;
     }
+
+//    public Set<History> getInHistories() {
+//        return inHistories;
+//    }
+//
+//    private void setInHistories(Set<History> inHistories) {
+//        this.inHistories = inHistories;
+//    }
 
     public Appointment getOrigAppointment() {
         return origAppointment;
@@ -94,7 +126,23 @@ public class Diagnosis implements java.io.Serializable {
     
     @Override
     public String toString(){
-        return getClass()+":"+this.getId();
+        String time = TimeFormatter.getAppointmentDate(date);
+        String dr = this.doctor.getSname();
+        String by = this.creator!=null?", zapsal/a "+this.creator.getSname():"";
+        String txt = this.text!=null?this.text:"";
+        
+        return time+", "+dr+" "+by+": "+txt;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        if(o.getClass().equals(this.getClass())){
+            Diagnosis d = (Diagnosis) o;
+            return (int) (this.date-d.date);
+        }
+        return 0;
+    }
+    
+    
     
 }

@@ -38,7 +38,7 @@ public abstract class Diagnosable implements java.io.Serializable{
      * @param diagnosis the diagnosis to be added
      */
     public void addDiagnosis(Diagnosis diagnosis){
-        this.history.addDiagnosis(diagnosis, System.currentTimeMillis());
+        this.history.addDiagnosis(diagnosis);
     }
     
     /**
@@ -48,7 +48,7 @@ public abstract class Diagnosable implements java.io.Serializable{
      * @param date the date to instert the diagnosis into.
      */
     public void addDiagnosis(Diagnosis diagnosis, long date){
-        this.history.addDiagnosis(diagnosis, date);
+        this.history.addDiagnosis(diagnosis);
     }
     
     //getters and setters

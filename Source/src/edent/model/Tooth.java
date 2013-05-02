@@ -133,5 +133,10 @@ public class Tooth extends Organ implements java.io.Serializable, Comparable{
         this.setMilk(m);
         update();
     }
+
+    public void changeState(ToothState state) {
+        this.setState(state);
+        update();
+    }
     
 }

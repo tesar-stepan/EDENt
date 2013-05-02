@@ -73,6 +73,8 @@ public class ToothPanel extends javax.swing.JPanel {
         gumStateLabel = new JLabel(" ");
         toothStateLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         gumStateLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        gumStateLabel.setOpaque(true);
+        gumStateLabel.setBackground(new Color(255,204,204));
         img.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         if (top) {
@@ -85,9 +87,9 @@ public class ToothPanel extends javax.swing.JPanel {
             p = new JLabel(" ");
             img.add(p);
             img.add(braceLabel);
-
-            this.panelImg.add(toothStateLabel);
+            
             this.panelImg.add(gumStateLabel);
+            this.panelImg.add(toothStateLabel);
             this.panelImg.add(img);
         } else {
             img.add(p);

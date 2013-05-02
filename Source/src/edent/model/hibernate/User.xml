@@ -33,7 +33,7 @@
             <key column="user_id" />
             <many-to-many column="patient_id"  class="edent.model.Patient" />
         </set>
-        <set name="appointments" table="user_appointment" inverse="false" lazy="true" fetch="select" cascade="all">
+        <set name="appointments" table="user_appointment" inverse="false" lazy="true" fetch="select" cascade="none">
             <key column="user_id" />
             <many-to-many column="app_id"  class="edent.model.Appointment" />
         </set>

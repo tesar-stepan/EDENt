@@ -15,14 +15,14 @@
             <column name="creator" not-null="false"/>
         </many-to-one>
         <many-to-one name="patient" class="edent.model.Patient">
-            <column name="patient" not-null="true"/>
+            <column name="patient" not-null="false"/>
         </many-to-one>
         <list name="diagnoses" table="diagnoses" inverse="true">
             <key column="app_id"/>
             <list-index column="app_index"/>
             <one-to-many class="edent.model.Diagnosis"/>
         </list>
-        <set name="servers" table="user_appointment" inverse="true" lazy="true" fetch="select" cascade="all">
+        <set name="servers" table="user_appointment" inverse="true" lazy="true" fetch="select" cascade="none">
             <key column="app_id" />
             <many-to-many column="user_id"  class="edent.model.User" />
         </set>

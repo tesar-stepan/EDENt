@@ -49,8 +49,8 @@ public class Appointment implements java.io.Serializable, EdentInlineEditableObj
         update();
     }
     
-    public boolean deleteServer(User server){
-        return this.servers.remove(server);
+    public void deleteServer(User server){
+        this.servers.remove(server);
     }
     
     public void addDiagnosis(Diagnosis d){
@@ -135,6 +135,9 @@ public class Appointment implements java.io.Serializable, EdentInlineEditableObj
             u.deleteAppointment(this);
         }
         this.servers = new HashSet<>();
+        if(users == null){
+            return;
+        }
         for(User u : users){
             u.addAppointment(this);
         }

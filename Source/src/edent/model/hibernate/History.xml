@@ -5,11 +5,15 @@
         <id name="id" type="java.lang.Long">
             <generator class="native"/>
         </id>
-        <list name="diagnoses" table="diagnosis_history" inverse="false" cascade="all">
+<!--        <list name="diagnoses" table="diagnosis_history" inverse="false" cascade="all">
             <key column="hist_id"/>
             <list-index column="hist_index"/>
             <many-to-many class="edent.model.Diagnosis"/>
-        </list>
+        </list>-->
+        <set name="diagnoses" table="diagnosis" inverse="false" lazy="true" fetch="select">
+            <key column="history"/>
+            <one-to-many class="edent.model.Diagnosis"/>
+        </set>
         <many-to-one unique="true" name="gum" class="edent.model.Gum">
             <column name="gum" not-null="false"/>
         </many-to-one>

@@ -76,7 +76,7 @@ public abstract class OrganState implements EdentInlineEditableObject {
     
     @Override
     public String toString(){
-        return getClass()+":"+this.getId();
+        return this.getMark()+"  "+this.getName();
     }
     
 }

@@ -4,9 +4,10 @@
  */
 package edent.model;
 
+import edent.controller.HibernateController;
 import edent.model.utils.Diagnosable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -14,23 +15,30 @@ import java.util.List;
  */
 public class History implements java.io.Serializable{
     private long id;
-    private List<Diagnosis> diagnoses;
+    private Set<Diagnosis> diagnoses;
     private Diagnosable owner;
     
     protected History(){
+        
     }
 
     public History(Diagnosable owner) {
         this.owner = owner;
-        this.diagnoses = new ArrayList<>();
+        this.diagnoses = new HashSet<>();
     }
     
-    public void addDiagnosis(Diagnosis diagnosis, long date){
+    private void update(){
+        HibernateController.update(this);
+    }
+    
+    public void addDiagnosis(Diagnosis diagnosis){
         diagnoses.add(diagnosis);
+//        this.update();
     }
     
-    public boolean deleteDiagnosis(Diagnosis d){
-        return this.diagnoses.remove(d);
+    public void deleteDiagnosis(Diagnosis d){
+        this.diagnoses.remove(d);
+        this.update();
     }
     
     //getters and setters
@@ -83,7 +91,7 @@ public class History implements java.io.Serializable{
         this.id = id;
     }
 
-    public List<Diagnosis> getDiagnoses() {
+    public Set<Diagnosis> getDiagnoses() {
         return diagnoses;
     }
     
@@ -92,7 +100,7 @@ public class History implements java.io.Serializable{
      * @see this.addDiagnosis(Diagnosis diagnosis, long date);
      * @param diagnoses 
      */
-    private void setDiagnoses(List<Diagnosis> diagnoses) {
+    private void setDiagnoses(Set<Diagnosis> diagnoses) {
         this.diagnoses = diagnoses;
     }
 
