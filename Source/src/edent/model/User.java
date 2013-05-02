@@ -99,14 +99,16 @@ public class User implements java.io.Serializable, EdentInlineEditableObject {
     }
 
     public void addAppointment(Appointment ap) {
-        this.appointments.add(ap);
+        if(!this.appointments.contains(ap)){
+            this.appointments.add(ap);
+        }
         ap.addServer(this);
         update();
     }
 
     public void deleteAppointment(Appointment ap) {
         this.appointments.remove(ap);
-        ap.deleteServer(this);
+//        ap.deleteServer(this); this is handeled by appointment itself when this method is called by it.
         update();
     }
 

@@ -5,12 +5,18 @@
 package edent.view;
 
 import edent.controller.ViewController;
+import edent.model.Appointment;
+import edent.view.utils.ApptSideLine;
 import edent.view.utils.Clock;
 import edent.view.utils.EdentButton;
 import edent.view.utils.EdentButtonColor;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.util.List;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JPanel;
 
 /**
  *
@@ -21,6 +27,7 @@ public class SidePanel extends javax.swing.JPanel {
     private static final String EXIT_LABEL = "|  Ukončit  |";
     private static final String NEWAPPT_LABEL = "Nová schůzka > ";
     private static final String QUICK_LABEL = "Zpět > ";
+    private static final int LINE_HEIGHT = 50;
     private JButton[] buttons = new JButton[4];
 
     /**
@@ -29,6 +36,7 @@ public class SidePanel extends javax.swing.JPanel {
     public SidePanel() {
         initComponents();
         this.setBackground(MainFrame.BACKGROUND);
+        this.panelAppts.setBackground(MainFrame.BACKGROUND);
         
         buttons[0] = this.settingsButton;
         buttons[1] = this.exitButton;
@@ -37,6 +45,41 @@ public class SidePanel extends javax.swing.JPanel {
         
         this.settingsButton.setText(SETTINGS_LABEL);
         this.exitButton.setText(EXIT_LABEL);
+        
+        this.quickButton.setVisible(false); //TODO implement quicksessions.
+        
+        this.setVisible(true);
+        this.addAppts();
+        this.revalidate();
+    }
+    
+    private void addAppts(){
+        panelAppts = new JPanel();
+        scrollAppts.setViewportView(panelAppts);
+        panelAppts.setLayout(new BoxLayout(panelAppts, BoxLayout.Y_AXIS));
+        panelAppts.setBackground(MainFrame.BACKGROUND);
+        
+        List<Appointment> appts = ViewController.modelFacade().getAppointments();
+        
+        Dimension dim = new Dimension((int)(Toolkit.getDefaultToolkit().getScreenSize().width/MainFrame.PANEL_WIDTH_FRACTION)-30, LINE_HEIGHT);
+        
+        for (Appointment ap : appts) {
+            String name = ap.getPatient().getSname()+" "+ap.getPatient().getFname();
+            ApptSideLine line = new ApptSideLine(name, ap.getNote(), ap.getDate(), ap.getId());
+            
+            line.setPreferredSize(dim);
+            line.setSize(dim);
+            this.panelAppts.add(line);
+        }
+        
+        this.panelAppts.setPreferredSize(new Dimension(dim.width, appts.size()*LINE_HEIGHT));
+        this.panelAppts.revalidate();
+        this.scrollAppts.validate();
+    }
+    
+    public void refreshAppts(){
+        this.panelAppts.removeAll();
+        this.addAppts();
     }
     
     public void deselectButtons(){
@@ -47,6 +90,10 @@ public class SidePanel extends javax.swing.JPanel {
     
     public void setSettingsSelected(){
         this.settingsButton.setSelected(true);
+    }
+    
+    public void setNewApptSelected(){
+        this.apptButton.setSelected(true);
     }
 
     /**
@@ -190,18 +237,7 @@ public class SidePanel extends javax.swing.JPanel {
         panelAppts.setAlignmentY(0.0F);
         panelAppts.setAutoscrolls(true);
         panelAppts.setPreferredSize(new java.awt.Dimension(200, 100));
-
-        javax.swing.GroupLayout panelApptsLayout = new javax.swing.GroupLayout(panelAppts);
-        panelAppts.setLayout(panelApptsLayout);
-        panelApptsLayout.setHorizontalGroup(
-            panelApptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 283, Short.MAX_VALUE)
-        );
-        panelApptsLayout.setVerticalGroup(
-            panelApptsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
-        );
-
+        panelAppts.setLayout(new javax.swing.BoxLayout(panelAppts, javax.swing.BoxLayout.LINE_AXIS));
         scrollAppts.setViewportView(panelAppts);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

@@ -16,6 +16,8 @@ public class TimeFormatter {
 
     public static final String BDATE_PATTERN = "d.M.yyyy";
     public static final String APPT_PATTERN = "d.M.yyyy HH:mm";
+    public static final String APPT_DATE_PATTERN = "d.M.yyyy";
+    public static final String APPT_TIME_PATTERN = "HH:mm";
 
     /**
      * Tries to recover the patients birth date in milliseconds from the given
@@ -44,6 +46,14 @@ public class TimeFormatter {
     
     public static String getAppointmentDate(long date) {
         return getStringFromTime(APPT_PATTERN, date);
+    }
+    
+    public static String getApptDateOnly(long date){
+        return getStringFromTime(APPT_DATE_PATTERN, date);
+    }
+    
+    public static String getApptTimeOnly(long date){
+        return getStringFromTime(APPT_TIME_PATTERN, date);
     }
     
     /**

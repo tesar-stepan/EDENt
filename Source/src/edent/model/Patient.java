@@ -39,7 +39,7 @@ public class Patient implements java.io.Serializable, EdentInlineEditableObject 
         this.doctors = doctors;
         
         HibernateController.create(this);
-        Mouth m = new Mouth(null, null, this);
+        Mouth m = new Mouth(this);
         HibernateController.create(m);
         this.mouth = m;
     }

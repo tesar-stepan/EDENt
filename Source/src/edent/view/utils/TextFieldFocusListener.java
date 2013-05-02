@@ -85,12 +85,17 @@ public class TextFieldFocusListener implements FocusListener {
             case "Patient":
                 o = ViewController.modelFacade().getPatient(objectId);
                 break;
+            case "Appointment":
+                o = ViewController.modelFacade().getAppointment(objectId);
             default:
                 break;
         }
 
         if (o != null) {
             o.setStringValue(this.valName, value);
+            if(this.cls.equals("Appointment")){
+                ViewController.refreshAppts();
+            }
         }
     }
 
@@ -122,7 +127,7 @@ public class TextFieldFocusListener implements FocusListener {
             } else {
                 this.textField.setBackground(origBg);
                 //System.out.println("editing - notrequired or not epmty");
-                if (!origText.equals(text)) {
+                if (!origText.equals(text)&&this.objectId!=-1) {
                     //System.out.println("editing - new valid value, updated");
                     this.updateObject();
                     //panelInfo.setBackground(MainFrame.BACKGROUND);

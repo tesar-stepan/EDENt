@@ -4,6 +4,7 @@
  */
 package edent.model;
 
+import edent.controller.HibernateController;
 import edent.model.utils.Organ;
 
 /**
@@ -13,10 +14,17 @@ import edent.model.utils.Organ;
 public class Gum extends Organ implements java.io.Serializable{
     private GumState state;
 
-    public Gum(GumState state, Mouth mouth) {
+    public Gum() {
+        
+    }
+
+    public Gum(Mouth mouth) {
         super(mouth);
-        this.state = state;
 //        System.out.println("Gum construct finished");
+    }
+    
+    private void update(){
+        HibernateController.update(this);
     }
     
     //getters and setters
@@ -25,7 +33,7 @@ public class Gum extends Organ implements java.io.Serializable{
         return state;
     }
 
-    public void setState(GumState state) {
+    private void setState(GumState state) {
         this.state = state;
     }
     

@@ -21,7 +21,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -38,8 +37,7 @@ public final class AppointmentForm extends EdentForm {
     private static final Dimension BUTTON_SIZE = new Dimension(100, 40);
     private static final String BUTTON_DELETE_LABEL = "Smazat";
     private static final String BUTTON_SAVE_LABEL = "Uložit";
-    private static final String FNAME_TEXT = "Poznámky... ";
-    private static final String BDATE_TEXT = "Datum a čas";
+    private static final String NOTE_TEXT = "Poznámky... ";
     private static final String INFO_TEXT_EDITING = "Pro změnu údajů je jednoduše přepište. Po uložení se zobrazí potvrzovací ikona.";
     private static final String INFO_TEXT_CREATING = "Pro změnu údajů je jednoduše přepište. Pro uložení použijte zelené tlačítko.";
     private static final String DELETE_CONFIRM_TEXT = "Chcete skutečně smazat schůzku?";
@@ -170,17 +168,18 @@ public final class AppointmentForm extends EdentForm {
                             ViewController.showPrevious();
                         }
                     } else {
-                        String note = textNote.getText();
-                        long bdate = TimeFormatter.getPatientsBDate(textDate.getText());
+                        String note = (textNote.getText().equals(NOTE_TEXT))?"":textNote.getText();
+                        long bdate = TimeFormatter.getAppointmentDate(textDate.getText());
                         long patientId = getPatientId();
 
                         //String icon = picChooser.getSelectedFile().getAbsolutePath(); //TODO file checking and copying
                         if (bdate != -1 && patientId > -1) {
                             ViewController.modelFacade().createAppointment(bdate, note, patientId);
                             ViewController.showPrevious();
+                            ViewController.refreshAppts();
                         } else if(patientId==-1){
                             System.out.println("Patient not selected");
-                            labelPatient.setBackground(Color.red);
+                            labelPatient.setForeground(Color.red);
                         } else{
                             System.out.println("Date not specified or in wrong format");
                         }
@@ -237,20 +236,7 @@ public final class AppointmentForm extends EdentForm {
     @Override
     public void setEditing(Object o) {
         this.resetForm();
-
-        Appointment a = (Appointment) o;
-        this.editing = true;
-        this.apptId = a.getId();
-        this.myInit();
-
-        this.textNote.setText(a.getNote());
-        this.textDate.setText(TimeFormatter.getAppointmentDate(a.getDate()));
-
-        this.infoBox.setText(INFO_TEXT_EDITING);
-
-        this.initPatientList();
-        this.initPatientList();
-        this.addListeners();
+        System.out.println("FORM AppointmentForm has no editing state");
     }
 
     @Override
@@ -268,8 +254,10 @@ public final class AppointmentForm extends EdentForm {
         this.infoBox.setText(INFO_TEXT_CREATING);
 
         panelFoto.removeAll();
-        textNote.setText(FNAME_TEXT);
+        textNote.setText(NOTE_TEXT);
         textDate.setText(TimeFormatter.getAppointmentDate(System.currentTimeMillis()));
+        
+        this.labelPatient.setForeground(Color.black);
 
         this.panelInfo.removeAll();
         this.panelInfoBDate.removeAll();

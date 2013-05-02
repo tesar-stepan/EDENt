@@ -87,7 +87,7 @@ public class ModelController {
     }
     
     public List getAppointments(){
-        return this.getAllOf("Appointment");
+        return this.getAllOf("Appointment","date");
     }
     
     public void deleteToothState(long id){
@@ -178,7 +178,7 @@ public class ModelController {
     }
     
     public Appointment getAppointment(long id){
-        return (Appointment) this.getById("Patient", id);
+        return (Appointment) this.getById("Appointment", id);
     }
     
 }

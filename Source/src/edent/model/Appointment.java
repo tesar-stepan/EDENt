@@ -1,6 +1,8 @@
 package edent.model;
 
 import edent.controller.HibernateController;
+import edent.view.utils.EdentInlineEditableObject;
+import edent.view.utils.TimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +17,7 @@ import java.util.Set;
  *
  * @author Stepan Tesar
  */
-public class Appointment implements java.io.Serializable{
+public class Appointment implements java.io.Serializable, EdentInlineEditableObject{
     private long id;
     private long date;
     private String note;
@@ -23,6 +25,9 @@ public class Appointment implements java.io.Serializable{
     private Set<User> servers;
     private Patient patient;
     private List<Diagnosis> diagnoses;
+
+    public Appointment() {
+    }
 
     public Appointment(long date, String note, User creator, Patient patient) {
         this.date = date;
@@ -38,7 +43,10 @@ public class Appointment implements java.io.Serializable{
     }
     
     public void addServer(User server){
-        this.servers.add(server);
+        if(!this.servers.contains(server)){
+            this.servers.add(server);
+        }
+        update();
     }
     
     public boolean deleteServer(User server){
@@ -104,11 +112,11 @@ public class Appointment implements java.io.Serializable{
         this.diagnoses = diagnoses;
     }
 
-    private Set<User> getServers() {
+    public Set<User> getServers() {
         return servers;
     }
 
-    public void setServers(Set<User> servers) {
+    private void setServers(Set<User> servers) {
         this.servers = servers;
     }
     
@@ -120,6 +128,32 @@ public class Appointment implements java.io.Serializable{
     public void changePatient(Patient p){
         this.setPatient(p);
         update();
+    }
+    
+    public void changeServers(Set<User> users){
+        for(User u : this.servers){
+            u.deleteAppointment(this);
+        }
+        this.servers = new HashSet<>();
+        for(User u : users){
+            u.addAppointment(this);
+        }
+    }
+    
+    @Override
+    public void setStringValue(String name, String value) {
+        switch (name) {
+            case "note":
+                this.setNote(value);
+                break;
+            case "date":
+                long newDate = TimeFormatter.getAppointmentDate(value);
+                this.setDate(newDate);
+            default:
+                System.err.println("Property "+name+" not found in class User. Tried to assign value: "+value);
+                break;
+        }
+        this.update();
     }
     
 }

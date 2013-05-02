@@ -24,7 +24,7 @@ public class Clock extends JLabel {
     private Timer m_t;
 
     public Clock() {
-        this("kk:mm");
+        this("HH:mm");
     }
     
     public Clock(String pattern){

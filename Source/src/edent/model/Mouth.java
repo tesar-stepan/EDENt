@@ -14,36 +14,67 @@ import java.util.Set;
  */
 public class Mouth extends Diagnosable implements java.io.Serializable{
     private Set<Tooth> teeth;
-    private Set<Gum> gums;
     
     public Mouth(){
         
     }
 
-    public Mouth(Set<Tooth> teeth, Set<Gum> gums, Patient owner) {
+    public Mouth(Patient owner) {
         super(owner);
-        this.teeth = teeth;
-        this.gums = gums;
         this.owner = owner;
-        this.gums = new HashSet<>();
         this.teeth = new HashSet<>();
+        
+        //top right
+        this.teeth.add(new Tooth(false, true, false, 8, this));
+        this.teeth.add(new Tooth(false, true, false, 7, this));
+        this.teeth.add(new Tooth(false, true, false, 6, this));
+        this.teeth.add(new Tooth(false, true, false, 5, this));
+        this.teeth.add(new Tooth(false, true, false, 4, this));
+        this.teeth.add(new Tooth(false, true, false, 3, this));
+        this.teeth.add(new Tooth(false, true, false, 2, this));
+        this.teeth.add(new Tooth(false, true, false, 1, this));
+        System.out.println("----------------------------> created teeth: "+this.teeth.size());
+        //top left
+        this.teeth.add(new Tooth(false, true, true, 1, this));
+        this.teeth.add(new Tooth(false, true, true, 2, this));
+        this.teeth.add(new Tooth(false, true, true, 3, this));
+        this.teeth.add(new Tooth(false, true, true, 4, this));
+        this.teeth.add(new Tooth(false, true, true, 5, this));
+        this.teeth.add(new Tooth(false, true, true, 6, this));
+        this.teeth.add(new Tooth(false, true, true, 7, this));
+        this.teeth.add(new Tooth(false, true, true, 8, this));
+        System.out.println("----------------------------> created teeth: "+this.teeth.size());
+        
+        //bottom right
+        this.teeth.add(new Tooth(false, false, false, 8, this));
+        this.teeth.add(new Tooth(false, false, false, 7, this));
+        this.teeth.add(new Tooth(false, false, false, 6, this));
+        this.teeth.add(new Tooth(false, false, false, 5, this));
+        this.teeth.add(new Tooth(false, false, false, 4, this));
+        this.teeth.add(new Tooth(false, false, false, 3, this));
+        this.teeth.add(new Tooth(false, false, false, 2, this));
+        this.teeth.add(new Tooth(false, false, false, 1, this));
+        System.out.println("----------------------------> created teeth: "+this.teeth.size());
+        //bootom left
+        this.teeth.add(new Tooth(false, false, true, 1, this));
+        this.teeth.add(new Tooth(false, false, true, 2, this));
+        this.teeth.add(new Tooth(false, false, true, 3, this));
+        this.teeth.add(new Tooth(false, false, true, 4, this));
+        this.teeth.add(new Tooth(false, false, true, 5, this));
+        this.teeth.add(new Tooth(false, false, true, 6, this));
+        this.teeth.add(new Tooth(false, false, true, 7, this));
+        this.teeth.add(new Tooth(false, false, true, 8, this));
+        System.out.println("----------------------------> created teeth: "+this.teeth.size());
+        
     }
     
-    public void addGum(Gum gum){
-        this.gums.add(gum);
-    }
-    
-    public void addTooth(Tooth tooth){
-        this.teeth.add(tooth);
-    }
-    
-    public boolean deleteGum(Gum gum){
-        return this.gums.remove(gum);
-    }
-    
-    public boolean deleteTooth(Tooth t){
-        return this.teeth.remove(t);
-    }
+//    public void addTooth(Tooth tooth){
+//        this.teeth.add(tooth);
+//    }
+//    
+//    public boolean deleteTooth(Tooth t){
+//        return this.teeth.remove(t);
+//    }
     
     //getters and setters
 
@@ -51,23 +82,15 @@ public class Mouth extends Diagnosable implements java.io.Serializable{
         return teeth;
     }
 
-    public void setTeeth(Set<Tooth> teeth) {
+    private void setTeeth(Set<Tooth> teeth) {
         this.teeth = teeth;
     }
-
-    private Set<Gum> getGums() {
-        return gums;
-    }
-
-    public void setGums(Set<Gum> gums) {
-        this.gums = gums;
-    }
-
+    
     public Patient getOwner() {
         return owner;
     }
 
-    public void setOwner(Patient owner) {
+    private void setOwner(Patient owner) {
         this.owner = owner;
     }
     

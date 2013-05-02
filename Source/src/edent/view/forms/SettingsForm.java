@@ -124,10 +124,12 @@ public class SettingsForm extends EdentForm{
     
     @Override
     public void setEditing(Object o) {
+        System.out.println("FORM SettingsForm has no editing state");
     }
 
     @Override
     public void setCreating() {
+        System.out.println("FORM SettingsForm has no creating state");
     }
     
     @Override

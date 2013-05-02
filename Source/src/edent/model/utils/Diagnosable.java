@@ -28,6 +28,7 @@ public abstract class Diagnosable implements java.io.Serializable{
         History h = new History(this);
         HibernateController.create(h);
         this.history = h;
+        HibernateController.update(this);
 //        System.out.println("diagnosable construct finished");
     }
     

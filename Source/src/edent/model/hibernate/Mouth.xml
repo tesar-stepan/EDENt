@@ -16,9 +16,5 @@
             <key column="mouth"/>
             <one-to-many class="edent.model.Tooth"/>
         </set>
-        <set name="gums" table="gum" inverse="false" lazy="true" fetch="select">
-            <key column="mouth"/>
-            <one-to-many class="edent.model.Gum"/>
-        </set>
     </class>
 </hibernate-mapping>

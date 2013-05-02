@@ -26,10 +26,14 @@ public class UnloggedForm extends EdentForm {
     }
     
     @Override
-    public void setEditing(Object o){}
+    public void setEditing(Object o){
+        System.out.println("FORM UnloggedForm has no editing state");
+    }
     
     @Override
-    public void setCreating(){}
+    public void setCreating(){
+        System.out.println("FORM UnloggedForm has no creating state");
+    }
     
     @Override
     public void resetForm(){}

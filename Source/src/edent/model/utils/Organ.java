@@ -13,6 +13,10 @@ import edent.model.Mouth;
 public abstract class Organ extends Diagnosable{
     protected Mouth mouth;
 
+    public Organ() {
+        
+    }
+
     public Organ(Mouth mouth) {
         super(mouth.owner);
         this.mouth = mouth;

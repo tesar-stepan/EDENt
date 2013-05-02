@@ -30,7 +30,6 @@ import java.util.Set;
  */
 public final class PatientForm extends EdentForm {
 //    private final JLabel IMG_OK = new JLabel(new ImageIcon(getClass().getResource("/edent/view/utils/ok.png")));
-
     private static final String DOCTOR_TYPE = "Doktor";
     private static final String NURSE_TYPE = "Sestra";
     private static final int LINE_HEIGHT = 54;
