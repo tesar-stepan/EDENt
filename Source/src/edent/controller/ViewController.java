@@ -13,6 +13,8 @@ import javax.swing.JOptionPane;
  * @author Stepan Tesar
  */
 public class ViewController {
+    private static final String SHUTDOWN_CONFIRM_TEXT = "Chcete skutečně ukončit program?";
+    private static final String SHUTDOWN_CONFIRM_TITLE = "Potvrďte vypnutí";
     private static final MainFrame mainFrame = new MainFrame();
     private static ViewController instance = new ViewController();
     private static User logged;
@@ -47,9 +49,11 @@ public class ViewController {
     }
 
     public static void shutDown() {
-        mainFrame.dispose(); //TODO ask user for confirmation
-        ModelController.shutDown();
-        System.exit(0); //TODO inform other controllers first!
+        if(ViewController.showConfirmDialog(SHUTDOWN_CONFIRM_TEXT, SHUTDOWN_CONFIRM_TITLE)){
+            mainFrame.dispose();
+            ModelController.shutDown();
+            System.exit(0);
+        }
     }
 
     public static void showPrevious() {

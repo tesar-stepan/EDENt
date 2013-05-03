@@ -45,6 +45,8 @@ public class MouthPanel extends javax.swing.JPanel {
     private static final String MOUTH = "Celá ústa";
     private static final String DIAGNOSES = "Diagnózy: ";
     private static final String BUTTON_ADD_LABEL = "Přidat";
+    private static final String MILK_LABEL = "Méčný zub";
+    private static final String BRACES_LABEL = "Rovnátka";
     private static final Dimension BUTTON_ADD_SIZE = new Dimension(61, 29);
     private static final int BUTTON_ADD_FONT_SIZE = 14;
     private static final int MARKS_SIZE = 16;
@@ -472,11 +474,11 @@ public class MouthPanel extends javax.swing.JPanel {
         chooseGumState.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 0));
 
         boxMilk.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        boxMilk.setLabel("mlecny zub");
+        boxMilk.setText(MILK_LABEL);
         boxMilk.setOpaque(false);
 
         boxBraces.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        boxBraces.setLabel("rovnatka");
+        boxBraces.setText(BRACES_LABEL);
         boxBraces.setOpaque(false);
 
         diagsLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -521,13 +523,13 @@ public class MouthPanel extends javax.swing.JPanel {
                         .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(chooseGumState, 0, 147, Short.MAX_VALUE)
                             .addComponent(chooseToothState, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(60, 60, 60)
-                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(boxMilk, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
-                            .addComponent(boxBraces, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(boxMilk, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(boxBraces, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(settingsPanelLayout.createSequentialGroup()
                         .addComponent(diagsLabel)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -548,16 +550,18 @@ public class MouthPanel extends javax.swing.JPanel {
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(buttonNewDiag, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(labelToothState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(chooseToothState)
-                    .addComponent(boxMilk, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(chooseToothState)
+                        .addComponent(boxMilk, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(settingsPanelLayout.createSequentialGroup()
                         .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(labelGumState, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(boxBraces, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(chooseGumState))
+                            .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(chooseGumState)
+                                .addComponent(boxBraces, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(58, 58, 58))
                     .addGroup(settingsPanelLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)

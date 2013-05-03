@@ -89,6 +89,7 @@ public class TextFieldFocusListener implements FocusListener {
                 break;
             case "Appointment":
                 o = ViewController.modelFacade().getAppointment(objectId);
+                break;
             default:
                 break;
         }

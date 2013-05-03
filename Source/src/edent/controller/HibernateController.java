@@ -77,7 +77,7 @@ public class HibernateController {
             session.update(object);
             tx.commit();
         } catch (Exception ex) {
-            ex.printStackTrace();
+//            ex.printStackTrace();
             if (tx != null && tx.isActive()) {
                 tx.rollback();
             }
@@ -101,7 +101,7 @@ public class HibernateController {
         }
 
         Transaction tx = null;
-        Query query = null;
+        Query query;
         
         try {
 
@@ -135,7 +135,7 @@ public class HibernateController {
             return result;
 
         } catch (Exception e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             if (tx != null && tx.isActive()) {
                 tx.rollback();
             }

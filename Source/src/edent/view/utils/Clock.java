@@ -17,7 +17,7 @@ import javax.swing.Timer;
  *
  * @author Fred Swartz, Copyleft 2005 - <a
  * href='http://opensource.org/licenses/mit-license.php'>MIT License</a>
- * @author Stepan Tesar, only minor changes.
+ * @author Stepan Tesar, minor changes.
  */
 public class Clock extends JLabel {
     private SimpleDateFormat formatter;

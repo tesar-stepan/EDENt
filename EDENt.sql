@@ -1,0 +1,1 @@
+Ve Windows nen&#237; podporovan&#253; v&#253;pis n&#225;zv&#367; komplexn&#237;ch tabulek a sch&#233;mat.

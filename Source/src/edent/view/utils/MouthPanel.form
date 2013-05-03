@@ -166,8 +166,8 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="labelToothPosition" min="-2" pref="219" max="-2" attributes="0"/>
-                      <Group type="102" attributes="0">
+                      <Component id="labelToothPosition" alignment="0" min="-2" pref="219" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="labelGumState" pref="83" max="32767" attributes="0"/>
                               <Component id="labelToothState" max="32767" attributes="0"/>
@@ -177,16 +177,16 @@
                               <Component id="chooseGumState" pref="147" max="32767" attributes="0"/>
                               <Component id="chooseToothState" max="32767" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="boxMilk" pref="102" max="32767" attributes="0"/>
-                              <Component id="boxBraces" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="boxMilk" min="-2" pref="100" max="-2" attributes="0"/>
+                              <Component id="boxBraces" min="-2" pref="109" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jScrollPane2" alignment="1" pref="0" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" alignment="1" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Component id="diagsLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -213,8 +213,10 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="buttonNewDiag" max="32767" attributes="0"/>
                       <Component id="labelToothState" max="32767" attributes="0"/>
-                      <Component id="chooseToothState" alignment="0" max="32767" attributes="0"/>
-                      <Component id="boxMilk" alignment="1" max="32767" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="chooseToothState" alignment="3" max="32767" attributes="0"/>
+                          <Component id="boxMilk" alignment="3" max="32767" attributes="0"/>
+                      </Group>
                       <Component id="jScrollPane3" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -222,8 +224,10 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="labelGumState" max="32767" attributes="0"/>
-                              <Component id="boxBraces" alignment="0" max="32767" attributes="0"/>
-                              <Component id="chooseGumState" alignment="0" max="32767" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                                  <Component id="chooseGumState" alignment="3" max="32767" attributes="0"/>
+                                  <Component id="boxBraces" alignment="3" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                       </Group>
@@ -312,7 +316,9 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="0"/>
             </Property>
-            <Property name="label" type="java.lang.String" value="mlecny zub"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="MILK_LABEL" type="code"/>
+            </Property>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
         </Component>
@@ -321,7 +327,9 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="14" style="0"/>
             </Property>
-            <Property name="label" type="java.lang.String" value="rovnatka"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="BRACES_LABEL" type="code"/>
+            </Property>
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
         </Component>
