@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dasta xmlns:ds="urn:cz-mzcr:ns:dasta:ds4:ds_dasta" xmlns:dsip="urn:cz-mzcr:ns:dasta:ds4:ds_ip" id_soubor="EDENT_REPORT_Tleskač_Jan_2013_05_10T00_44_44" verze_ds="10.05.13" bin_priloha="T" ur="T" typ_odesm="KK">
+    <ds:garant_dat id_garant="1129"> Lenka Vokatá </ds:garant_dat>
+    <ds:is ico="12345678" icz="44101000" icp="44101882">
+        <ds:as>
+            <ds:vnitrni>801</ds:vnitrni>
+        </ds:as>
+        <ds:ip id_pac="650514/2858">
+            <dsip:rodcis>650514/2858</dsip:rodcis>
+            <dsip:jmeno>Jan</dsip:jmeno>
+            <dsip:prijmeni>Tleskač</dsip:prijmeni>
+            <dsip:dat_dn format="D">1965-05-14</dsip:dat_dn>
+            <dsip:ku>
+                <dsip:ku_z typku="I" typkuspeclok="1 vlevo dole">
+                    <dsip:dat_vydani format="DT">10.5.2013 00:40</dsip:dat_vydani>
+                    <dsip:p_pracovnik>
+                        <dsip:titul_pred></dsip:titul_pred>
+                        <dsip:jmeno>Lenka</dsip:jmeno>
+                        <dsip:prijmeni>Vokatá</dsip:prijmeni>
+                        <dsip:titul_za></dsip:titul_za>
+                    </dsip:p_pracovnik>
+                    <dsip:text>
+                        <dsip:ktext>Uplně nová diagnóza, která má přiřazeného i zapisovatele.</dsip:ktext>
+                    </dsip:text>
+                    <dsip:text_zaver>
+                        <dsip:ktext>zub: Implantát dasen: Parodontitida</dsip:ktext>
+                    </dsip:text_zaver>
+                </dsip:ku_z>
+                <dsip:ku_z typku="I" typkuspeclok="1 vlevo dole">
+                    <dsip:dat_vydani format="DT">2.5.2013 13:58</dsip:dat_vydani>
+                    <dsip:text>
+                        <dsip:ktext>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</dsip:ktext>
+                    </dsip:text>
+                    <dsip:text_zaver>
+                        <dsip:ktext>zub: Implantát dasen: Parodontitida</dsip:ktext>
+                    </dsip:text_zaver>
+                </dsip:ku_z>
+                <dsip:ku_z typku="I" typkuspeclok="1 vlevo dole">
+                    <dsip:dat_vydani format="DT">2.5.2013 13:55</dsip:dat_vydani>
+                    <dsip:text>
+                        <dsip:ktext>Sarlacu byl obětován Han Solo, bohužel bez odezvy.</dsip:ktext>
+                    </dsip:text>
+                    <dsip:text_zaver>
+                        <dsip:ktext>zub: Implantát dasen: Parodontitida</dsip:ktext>
+                    </dsip:text_zaver>
+                </dsip:ku_z>
+                <dsip:ku_z typku="I" typkuspeclok="1 vlevo dole">
+                    <dsip:dat_vydani format="DT">2.5.2013 13:55</dsip:dat_vydani>
+                    <dsip:text>
+                        <dsip:ktext>Ve hnijící tkáni se uhnízdil sarlacc, začal pohlcovat okolní zuby.</dsip:ktext>
+                    </dsip:text>
+                    <dsip:text_zaver>
+                        <dsip:ktext>zub: Implantát dasen: Parodontitida</dsip:ktext>
+                    </dsip:text_zaver>
+                </dsip:ku_z>
+                <dsip:ku_z typku="I" typkuspeclok="1 vlevo dole">
+                    <dsip:dat_vydani format="DT">2.5.2013 13:48</dsip:dat_vydani>
+                    <dsip:text>
+                        <dsip:ktext>Dáseň se nehojí, implantát extrahován, dáseň nutno separovat.</dsip:ktext>
+                    </dsip:text>
+                    <dsip:text_zaver>
+                        <dsip:ktext>zub: Implantát dasen: Parodontitida</dsip:ktext>
+                    </dsip:text_zaver>
+                </dsip:ku_z>
+                <dsip:ku_z typku="I" typkuspeclok="1 vlevo dole">
+                    <dsip:dat_vydani format="DT">2.5.2013 13:48</dsip:dat_vydani>
+                    <dsip:text>
+                        <dsip:ktext>Vyčištěna dáseň, silné krvácení.</dsip:ktext>
+                    </dsip:text>
+                    <dsip:text_zaver>
+                        <dsip:ktext>zub: Implantát dasen: Parodontitida</dsip:ktext>
+                    </dsip:text_zaver>
+                </dsip:ku_z>
+                <dsip:ku_z typku="I" typkuspeclok="1 vlevo dole">
+                    <dsip:dat_vydani format="DT">2.5.2013 13:43</dsip:dat_vydani>
+                    <dsip:text>
+                        <dsip:ktext>Vložen implantát, dáseň silně zanícená.</dsip:ktext>
+                    </dsip:text>
+                    <dsip:text_zaver>
+                        <dsip:ktext>zub: Implantát dasen: Parodontitida</dsip:ktext>
+                    </dsip:text_zaver>
+                </dsip:ku_z>
+            </dsip:ku>
+        </ds:ip>
+    </ds:is>
+</dasta>

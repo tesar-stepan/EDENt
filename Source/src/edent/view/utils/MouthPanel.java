@@ -21,6 +21,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +31,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -45,11 +47,17 @@ public class MouthPanel extends javax.swing.JPanel {
     private static final String MOUTH = "Celá ústa";
     private static final String DIAGNOSES = "Diagnózy: ";
     private static final String BUTTON_ADD_LABEL = "Přidat";
+    private static final String BUTTON_XML_LABEL = "Export XML";
     private static final String MILK_LABEL = "Méčný zub";
     private static final String BRACES_LABEL = "Rovnátka";
     private static final Dimension BUTTON_ADD_SIZE = new Dimension(61, 29);
+    private static final Dimension BUTTON_XML_SIZE = new Dimension(100, 29);
     private static final int BUTTON_ADD_FONT_SIZE = 14;
-    private static final int MARKS_SIZE = 16;
+    private static final String XML_ERR_TEXT = "Chyba při exportu.";
+    private static final String XML_ERR_TITLE = "Chyba";
+    private static final String XML_SUCC_TEXT = "Exportováno do: ";
+    private static final String XML_SUCC_TITLE = "Export";
+    private static final String XML_FAIL_TEXT = "Neexistují diagnózy pro export";
     
     private Appointment appt;
     private Diagnosable selected;
@@ -244,14 +252,14 @@ public class MouthPanel extends javax.swing.JPanel {
 //        this.listDiags.setListData(d.getHistory().getDiagnoses().toArray());
         this.refreshDiagnoses();
     }
-    
-    private void refreshDiagnoses(){
+
+    private void refreshDiagnoses() {
         List<Diagnosis> diags = new ArrayList<>();
         diags.addAll(this.selected.getHistory().getDiagnoses());
-        
+
         Collections.sort(diags);
         Collections.reverse(diags);
-        
+
         this.listDiags.setListData(diags.toArray());
     }
 
@@ -397,6 +405,7 @@ public class MouthPanel extends javax.swing.JPanel {
         jScrollPane3 = new javax.swing.JScrollPane();
         textNewDiag = new javax.swing.JTextArea();
         buttonNewDiag = new EdentButton(BUTTON_ADD_LABEL, BUTTON_ADD_SIZE, BUTTON_ADD_FONT_SIZE, EdentButtonColor.blue, BorderLayout.CENTER);
+        buttonNewDiag1 = new EdentButton(BUTTON_XML_LABEL, BUTTON_XML_SIZE, BUTTON_ADD_FONT_SIZE, EdentButtonColor.blue, BorderLayout.CENTER);
 
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -507,6 +516,15 @@ public class MouthPanel extends javax.swing.JPanel {
             }
         });
 
+        buttonNewDiag1.setMaximumSize(new java.awt.Dimension(61, 29));
+        buttonNewDiag1.setMinimumSize(new java.awt.Dimension(61, 29));
+        buttonNewDiag1.setPreferredSize(new java.awt.Dimension(61, 29));
+        buttonNewDiag1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonNewDiag1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout settingsPanelLayout = new javax.swing.GroupLayout(settingsPanel);
         settingsPanel.setLayout(settingsPanelLayout);
         settingsPanelLayout.setHorizontalGroup(
@@ -526,7 +544,8 @@ public class MouthPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(boxMilk, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(boxBraces, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(boxBraces, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(buttonNewDiag1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -562,10 +581,10 @@ public class MouthPanel extends javax.swing.JPanel {
                             .addGroup(settingsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(chooseGumState)
                                 .addComponent(boxBraces, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(58, 58, 58))
-                    .addGroup(settingsPanelLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGap(18, 18, 18)
+                        .addComponent(buttonNewDiag1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -585,34 +604,51 @@ public class MouthPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void buttonNewDiagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNewDiagActionPerformed
-        if(this.textNewDiag.getText()==null||this.textNewDiag.getText().length()<1){
+        if (this.textNewDiag.getText() == null || this.textNewDiag.getText().length() < 1) {
             return;
         }
-        
+
         long date = System.currentTimeMillis();
         Set<User> users = this.appt.getServers();
         User doctor = null;
-        if(users!=null){
-            for(User u : users){
-                if(u.getType().equals(UserType.doctor)){
+        if (users != null) {
+            for (User u : users) {
+                if (u.getType().equals(UserType.doctor)) {
                     doctor = u;
                 }
             }
         }
-        
+
         User creator = this.appt.getCreator();
         String text = this.textNewDiag.getText();
-        
+
         ViewController.modelFacade().createDiagnosis(date, creator, doctor, text, this.selected.getHistory(), this.appt);
-        
+
         this.textNewDiag.setText("");
         this.refreshDiagnoses();
     }//GEN-LAST:event_buttonNewDiagActionPerformed
 
+    private void buttonNewDiag1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonNewDiag1ActionPerformed
+        List<Diagnosis> diags = new ArrayList<>();
+        diags.addAll(selected.getHistory().getDiagnoses());
+        try {
+            String fname = DASTAExporter.generateXML(diags, this.appt.getCreator());
+            if(fname!=null){
+                ViewController.showInfoDialog(XML_SUCC_TEXT+fname, XML_SUCC_TITLE);
+            }else{
+                ViewController.showInfoDialog(XML_FAIL_TEXT, XML_SUCC_TITLE);
+            }
+        } catch (JAXBException|IOException ex) {
+            ex.printStackTrace();
+            ViewController.showErrorDialog(XML_ERR_TEXT, XML_ERR_TITLE);
+        }
+
+    }//GEN-LAST:event_buttonNewDiag1ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox boxBraces;
     private javax.swing.JCheckBox boxMilk;
     private javax.swing.JButton buttonNewDiag;
+    private javax.swing.JButton buttonNewDiag1;
     private javax.swing.JComboBox chooseGumState;
     private javax.swing.JComboBox chooseToothState;
     private javax.swing.JLabel diagsLabel;

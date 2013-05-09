@@ -18,6 +18,27 @@ public class TimeFormatter {
     public static final String APPT_PATTERN = "d.M.yyyy HH:mm";
     public static final String APPT_DATE_PATTERN = "d.M.yy";
     public static final String APPT_TIME_PATTERN = "HH:mm";
+    
+    public static final String XML_DATE_PATTERN = "dd.MM.yy";
+    public static final String XML_ID_DATE_PATTERN = "yyyy_MM_dd";
+    public static final String XML_ID_TIME_PATTERN = "HH_mm_ss";
+    public static final String XML_PATIENT_BDATE = "yyyy-MM-dd";
+    
+    public static String getXMLPatientBdate(long bdate){
+        return getStringFromTime(XML_PATIENT_BDATE, bdate);
+    }
+    
+    public static String getXMLDate(){
+        return getStringFromTime(XML_DATE_PATTERN, System.currentTimeMillis());
+    }
+    
+    public static String getXMLIdDate(){
+        return getStringFromTime(XML_ID_DATE_PATTERN, System.currentTimeMillis());
+    }
+    
+    public static String getXMLIdTime(){
+        return getStringFromTime(XML_ID_TIME_PATTERN, System.currentTimeMillis());
+    }
 
     /**
      * Tries to recover the patients birth date in milliseconds from the given

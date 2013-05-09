@@ -147,4 +147,13 @@ public class ViewController {
             return false;
         }
     }
+    
+    public static void showErrorDialog(String text, String title) {
+        JOptionPane.showMessageDialog(mainFrame, text, title, JOptionPane.ERROR_MESSAGE);
+    }
+    
+    public static void showInfoDialog(String text, String title) {
+        JOptionPane.showMessageDialog(mainFrame, text, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+    
 }

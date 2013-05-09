@@ -183,6 +183,7 @@
                               <Component id="boxBraces" min="-2" pref="109" max="-2" attributes="0"/>
                           </Group>
                       </Group>
+                      <Component id="buttonNewDiag1" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -229,13 +230,12 @@
                                   <Component id="boxBraces" alignment="3" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <Component id="buttonNewDiag1" max="32767" attributes="0"/>
                       </Group>
-                      <Group type="102" attributes="0">
-                          <Component id="jScrollPane2" min="-2" pref="77" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="jScrollPane2" min="-2" pref="77" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -400,6 +400,25 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new EdentButton(BUTTON_ADD_LABEL, BUTTON_ADD_SIZE, BUTTON_ADD_FONT_SIZE, EdentButtonColor.blue, BorderLayout.CENTER);"/>
+          </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="buttonNewDiag1">
+          <Properties>
+            <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[61, 29]"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[61, 29]"/>
+            </Property>
+            <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[61, 29]"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="buttonNewDiag1ActionPerformed"/>
+          </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new EdentButton(BUTTON_XML_LABEL, BUTTON_XML_SIZE, BUTTON_ADD_FONT_SIZE, EdentButtonColor.blue, BorderLayout.CENTER);"/>
           </AuxValues>
         </Component>
       </SubComponents>
